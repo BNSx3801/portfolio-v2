@@ -12,11 +12,11 @@ const links = [
 
 export function Nav() {
   return (
-    <header className="relative z-10 flex flex-wrap items-center gap-x-8 gap-y-2 px-4 pt-2 xl:block xl:px-0 xl:pt-0">
+    <header className="relative z-10 flex items-center justify-between gap-4 px-5 pt-3 xl:block xl:px-0 xl:pt-0">
       <Link
         href="/"
         aria-label="Bal Narayan Singh, home"
-        className="sig-link xl:absolute xl:top-[12px] xl:left-4"
+        className="sig-link shrink-0 xl:absolute xl:top-[12px] xl:left-4"
       >
         <span aria-hidden="true" className="signature block font-signature text-[32px] leading-[40px] whitespace-nowrap">
           Bal Narayan Singh
@@ -25,7 +25,7 @@ export function Nav() {
 
       <nav
         aria-label="Primary"
-        className="flex gap-6 xl:absolute xl:top-[22px] xl:left-[212px] xl:gap-[40px]"
+        className="flex gap-4 xl:absolute xl:top-[22px] xl:left-[212px] xl:gap-[40px]"
       >
         {links.map((l) => (
           <a key={l.label} href={l.href} className="link-underline">
@@ -34,13 +34,17 @@ export function Nav() {
         ))}
       </nav>
 
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 xl:absolute xl:top-[22px] xl:right-10 xl:flex-nowrap">
-        <a href={contact.callHref} target="_blank" rel="noreferrer" className="link-underline">
-          Book a Call
-        </a>
-        <SoundToggle />
+      <div className="flex items-center gap-x-6 xl:absolute xl:top-[22px] xl:right-10">
+        <span className="hidden xl:contents">
+          <a href={contact.callHref} target="_blank" rel="noreferrer" className="link-underline">
+            Book a Call
+          </a>
+          <SoundToggle />
+        </span>
         <ThemeToggle />
-        <Clock />
+        <span className="hidden xl:contents">
+          <Clock />
+        </span>
       </div>
     </header>
   );

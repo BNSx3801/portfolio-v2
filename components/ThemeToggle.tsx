@@ -75,9 +75,19 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-      className="link-underline cursor-pointer text-ink-muted"
+      className="link-underline inline-flex cursor-pointer items-center text-ink-muted"
     >
-      {theme === "light" ? "Light Mode" : "Dark Mode"}
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="theme-icon xl:hidden">
+        {theme === "light" ? (
+          <path d="M19.5 14.6A7.7 7.7 0 0 1 9.4 4.5a7.9 7.9 0 1 0 10.1 10.1Z" />
+        ) : (
+          <>
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </>
+        )}
+      </svg>
+      <span className="hidden xl:inline">{theme === "light" ? "Light Mode" : "Dark Mode"}</span>
     </button>
   );
 }

@@ -162,6 +162,12 @@ body {
   rotate: 3deg;
 }
 
+/* Bio words ink in on scroll (narrow screens only; see ScrollInk.tsx). */
+.hero-word {
+  display: inline;
+  transition: opacity 0.25s;
+}
+
 /* ---------- Theme sweep (View Transitions) ---------- */
 
 ::view-transition-old(root),
@@ -178,7 +184,7 @@ body {
 .photo-stack {
   position: relative;
   width: 210px;
-  height: 280px;
+  aspect-ratio: 3 / 4;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -232,6 +238,7 @@ body {
   display: inline-grid;
   box-sizing: border-box;
   height: 30px;
+  height: calc(1lh + 8px);
   padding-block: 4px;
   margin-block: -4px;
   overflow: hidden;
@@ -610,5 +617,149 @@ body {
   .contact-compose {
     position: static;
     margin: 16px auto 0;
+  }
+}
+
+/* ---------- Nav icon ---------- */
+
+.theme-icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Narrow screens ---------- */
+
+.hello-lang {
+  height: calc(1lh + 6px);
+}
+
+@media (max-width: 767px) {
+  body {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .sig-link .signature {
+    font-size: 26px;
+    line-height: 32px;
+  }
+  .hello-word {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .photo-stack {
+    width: min(210px, 46vw);
+  }
+  .note {
+    scale: 0.86;
+    transform-origin: 0 0;
+    margin-bottom: -18px;
+  }
+  .rail {
+    padding-left: 20px;
+  }
+  .card + div {
+    margin-left: 20px;
+  }
+  #companies,
+  #kind-words,
+  #contact {
+    padding-top: 72px;
+  }
+  #companies h2,
+  #kind-words h2,
+  #contact h2 {
+    margin-left: 0;
+  }
+  #kind-words .tabular-nums {
+    margin-right: 0;
+  }
+  #kind-words > button {
+    margin-left: 0;
+  }
+  .note-stack {
+    translate: 0;
+    height: 330px;
+  }
+  .kind-note {
+    padding: 16px 16px 18px;
+  }
+  .kind-note[data-place="1"] {
+    translate: 8px -10px;
+    rotate: 3deg;
+  }
+  /* Coffee: drop the fixed paper collage for a plain card that flows */
+  #contact > div {
+    width: auto;
+    height: auto;
+    margin: 16px 0 0;
+    padding: 20px 16px;
+    background: var(--note-card);
+    border-radius: 14px;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.06), 0 10px 24px -12px rgb(0 0 0 / 0.3);
+  }
+  #contact .coffee-paper {
+    display: none;
+  }
+  #contact ol {
+    position: static;
+    width: auto;
+  }
+  #contact .contact-line {
+    padding-left: 0;
+  }
+  #contact .contact-bubble:not(button) {
+    width: auto;
+    height: auto;
+    padding: 10px 12px;
+    white-space: normal;
+    background: color-mix(in srgb, var(--ink) 6%, var(--note-card));
+  }
+  #contact .contact-compose {
+    position: static;
+    width: 100%;
+    margin: 20px 0 0;
+  }
+  #contact .compose-sheet {
+    width: 100%;
+    rotate: 0deg;
+    box-shadow: none;
+    border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  }
+  #contact button[type="submit"] {
+    position: static;
+    margin: 12px 0 0 auto;
+  }
+  footer dl,
+  footer > div {
+    margin-inline: 0;
+  }
+  footer {
+    padding-top: 56px;
+  }
+}
+
+/* Logo grid: two columns on phones, so the dots need the 2-column rules */
+@media (max-width: 639px) {
+  .logo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .logo-cell:nth-child(-n + 4)::before,
+  .logo-cell:nth-child(4n + 1):not(:first-child)::before {
+    display: none;
+  }
+  .logo-cell:nth-child(-n + 2)::before {
+    display: block;
+    right: -4px;
+    top: -4px;
+  }
+  .logo-cell:nth-child(2n + 1):not(:first-child)::before {
+    display: block;
+    left: -4px;
+    top: -4px;
   }
 }

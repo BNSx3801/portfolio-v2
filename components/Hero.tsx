@@ -4,31 +4,39 @@ import { CurrentlyBuilding } from "./CurrentlyBuilding";
 import { Greeting } from "./Greeting";
 import { MagneticButton } from "./MagneticButton";
 import { PhotoStack } from "./PhotoStack";
+import { ScrollInk } from "./ScrollInk";
 
 export function Hero() {
   return (
     <section
       id="about"
-      className="mx-auto flex max-w-[739px] flex-col items-start px-4 pt-8 pb-16 xl:static xl:max-w-none xl:px-0 xl:pt-0 xl:pb-0"
+      className="mx-auto flex max-w-[739px] flex-col items-start px-5 pt-[120px] pb-16 xl:static xl:max-w-none xl:px-0 xl:pt-0 xl:pb-0"
     >
-      <Image
-        src="/assets/illustration.png"
-        alt="Coffee, a cigarette and a stack of attention papers"
-        width={290}
-        height={191}
-        priority
-        className="illustration h-[191px] w-[290px] xl:absolute xl:top-[241px] xl:left-[309px]"
-      />
+      <div className="flex w-full items-end justify-between gap-4 xl:contents">
+        <Image
+          src="/assets/illustration.png"
+          alt="Coffee, a cigarette and a stack of attention papers"
+          width={290}
+          height={191}
+          priority
+          className="illustration h-auto w-[150px] xl:absolute xl:top-[241px] xl:left-[309px] xl:h-[191px] xl:w-[290px]"
+        />
+        <PhotoStack className="xl:absolute xl:top-[86px] xl:left-[900px]" />
+      </div>
 
-      <PhotoStack className="mt-8 xl:absolute xl:top-[86px] xl:left-[900px] xl:mt-0" />
-
-      <div className="mt-8 flex w-full max-w-[707px] flex-col gap-[30px] xl:absolute xl:top-[462px] xl:left-[366.75px] xl:mt-0">
+      <div className="mt-10 flex w-full max-w-[707px] flex-col gap-[30px] xl:absolute xl:top-[462px] xl:left-[366.75px] xl:mt-0">
         <Greeting />
-        <div className="flex flex-col gap-[30px]">
+        <ScrollInk className="flex flex-col gap-[30px]">
           {bio.map((paragraph) => (
-            <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+            <p key={paragraph.slice(0, 24)}>
+              {paragraph.split(" ").map((word, i) => (
+                <span key={i} className="hero-word">
+                  {word}{" "}
+                </span>
+              ))}
+            </p>
           ))}
-        </div>
+        </ScrollInk>
         <MagneticButton
           href={contact.callHref}
           external
