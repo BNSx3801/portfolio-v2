@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { examSeriesUrl } from "@/lib/site";
 
 export function CurrentlyBuilding({ className = "" }: { className?: string }) {
   return (
@@ -17,7 +18,9 @@ export function CurrentlyBuilding({ className = "" }: { className?: string }) {
         Currently Building
       </p>
       <a
-        href="#"
+        href={examSeriesUrl}
+        target="_blank"
+        rel="noreferrer"
         className="absolute top-[62px] left-[141px] flex origin-top-left items-center gap-1 font-[510]"
         style={{ rotate: "-2.46deg" }}
       >

@@ -14,12 +14,11 @@ export const greetings: Greeting[] = [
 
 export type Photo = { src: string; alt: string };
 
-// The design supplies one portrait. Drop real photos into /public/photos and list them here;
-// the stack shows the first entry on top and cycles through the rest.
+// The stack shows the first entry on top and cycles through the rest. Add more here.
 export const photos: Photo[] = [
-  { src: "/assets/portrait.png", alt: "Bal Narayan Singh, portrait one" },
-  { src: "/assets/portrait.png", alt: "Bal Narayan Singh, portrait two" },
-  { src: "/assets/portrait.png", alt: "Bal Narayan Singh, portrait three" },
+  { src: "/photos/bns-headshot.jpg", alt: "Bal Narayan Singh, portrait" },
+  { src: "/photos/bns-speaking.png", alt: "Bal Narayan Singh speaking on stage" },
+  { src: "/photos/bns-waterfall.jpg", alt: "Bal Narayan Singh on a staircase in front of a waterfall, helmet in hand" },
 ];
 
 export type ProjectMedia = { type: "image" | "video"; src: string };
@@ -32,8 +31,10 @@ export type Project = {
   media?: ProjectMedia;
 };
 
+export const examSeriesUrl = "https://ca.examseries.co.in/";
+
 export const projects: Project[] = [
-  { title: "ExamSeries", subtitle: "Pseudo Line", href: "#" },
+  { title: "ExamSeries", subtitle: "Pseudo Line", href: examSeriesUrl },
   { title: "Project Two", subtitle: "Pseudo Line", href: "#" },
   { title: "Project Three", subtitle: "Pseudo Line", href: "#" },
   { title: "Project Four", subtitle: "Pseudo Line", href: "#" },
@@ -97,10 +98,9 @@ export const notes: Note[] = [
 export const contact = {
   name: "Bal Narayan Singh (BNS)",
   email: "work.bnsingh@gmail.com",
-  // TODO: real booking + social URLs
-  callHref: "#",
-  linkedin: "#",
-  x: "#",
-  telegram: "#",
+  callHref: "https://cal.com/work-bnsingh/30min",
+  linkedin: "https://linkedin.com/in/BNSx3801",
+  x: "https://x.com/BNSx3801",
+  telegram: "https://t.me/BNSx3801",
   lastUpdated: "Nov 5, 2026",
 };

@@ -21,7 +21,7 @@ export function Footer() {
         <div className={rowClass}>
           <dt className="text-ink-faint">Call</dt>
           <dd>
-            <a href={contact.callHref} className="link-underline text-ink-muted">
+            <a href={contact.callHref} target="_blank" rel="noreferrer" className="link-underline text-ink-muted">
               Schedule a 30-min call ↗
             </a>
           </dd>
@@ -29,9 +29,9 @@ export function Footer() {
         <div className={rowClass}>
           <dt className="text-ink-faint">Socials</dt>
           <dd className="flex flex-wrap justify-end gap-x-6 text-ink-muted">
-            <a href={contact.linkedin} className="link-underline">LinkedIn ↗</a>
-            <a href={contact.x} className="link-underline">X/Twitter ↗</a>
-            <a href={contact.telegram} className="link-underline">Telegram ↗</a>
+            <a href={contact.linkedin} target="_blank" rel="noreferrer" className="link-underline">LinkedIn ↗</a>
+            <a href={contact.x} target="_blank" rel="noreferrer" className="link-underline">X/Twitter ↗</a>
+            <a href={contact.telegram} target="_blank" rel="noreferrer" className="link-underline">Telegram ↗</a>
           </dd>
         </div>
       </dl>

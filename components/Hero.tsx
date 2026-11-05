@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { bio } from "@/lib/site";
+import { bio, contact } from "@/lib/site";
 import { CurrentlyBuilding } from "./CurrentlyBuilding";
 import { Greeting } from "./Greeting";
 import { MagneticButton } from "./MagneticButton";
@@ -30,7 +30,8 @@ export function Hero() {
           ))}
         </div>
         <MagneticButton
-          href="#contact"
+          href={contact.callHref}
+          external
           className="inline-flex h-[39px] w-[192px] items-center justify-center rounded-full bg-pill-bg font-[590] text-pill-fg"
         >
           Let&apos;s Work Together?

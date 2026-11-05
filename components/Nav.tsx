@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { contact } from "@/lib/site";
 import { Clock } from "./Clock";
 import { SoundToggle } from "./SoundToggle";
 import { ThemeToggle } from "./ThemeToggle";
@@ -34,8 +35,7 @@ export function Nav() {
       </nav>
 
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 xl:absolute xl:top-[22px] xl:right-10 xl:flex-nowrap">
-        {/* TODO: replace with the real cal.com booking link */}
-        <a href="#" className="link-underline">
+        <a href={contact.callHref} target="_blank" rel="noreferrer" className="link-underline">
           Book a Call
         </a>
         <SoundToggle />

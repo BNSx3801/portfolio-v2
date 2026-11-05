@@ -10,10 +10,12 @@ const HALO = 24; // px beyond the pill's edge where the pull is active
 export function MagneticButton({
   href,
   className = "",
+  external = false,
   children,
 }: {
   href: string;
   className?: string;
+  external?: boolean;
   children: ReactNode;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -56,7 +58,13 @@ export function MagneticButton({
   }, []);
 
   return (
-    <a ref={ref} href={href} className={`button-ink ${className}`}>
+    <a
+      ref={ref}
+      href={href}
+      className={`button-ink ${className}`}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+    >
       <span data-label="" className="inline-flex items-center">
         {children}
       </span>
