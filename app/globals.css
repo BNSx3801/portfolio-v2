@@ -8,6 +8,9 @@
   --pill-bg: #000000;
   --pill-fg: #ffffff;
   --card: #8a534b;
+  --note-card: #ffffff;
+  --note-shadow: 0 2px 41px rgb(0 0 0 / 0.2);
+  --signature-ink: rgb(26 0 255 / 0.35);
   --ink-muted: color-mix(in srgb, var(--ink) 70%, transparent);
   --ink-faint: color-mix(in srgb, var(--ink) 50%, transparent);
   color-scheme: light;
@@ -17,6 +20,9 @@
   --paper: #111111;
   --ink: #e7e7e7;
   --pill-bg: #e7e7e7;
+  --note-card: #1c1c1c;
+  --note-shadow: 0 2px 41px rgb(0 0 0 / 0.6);
+  --signature-ink: rgb(150 140 255 / 0.6);
   --pill-fg: #111111;
   color-scheme: dark;
 }
@@ -30,10 +36,13 @@
   --color-pill-bg: var(--pill-bg);
   --color-pill-fg: var(--pill-fg);
   --font-sans: -apple-system, "SF Pro", var(--font-inter), system-ui, sans-serif;
+  --font-script: var(--font-script), cursive;
+  --font-hand: var(--font-hand), cursive;
 }
 
 html {
   background: var(--paper);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -285,13 +294,18 @@ body {
   .photo-print img,
   .card-media,
   .button-ink,
-  .note {
+  .note,
+  .kind-note,
+  .logo {
     transition: none;
   }
   .hello-in,
   .hello-out,
   .fade-in,
-  .fade-out {
+  .fade-out,
+  .contact-bubble,
+  .contact-compose,
+  .contact-typing span {
     animation: none;
   }
   .rail {
@@ -303,5 +317,255 @@ body {
   }
   .rail-set[aria-hidden="true"] {
     display: none;
+  }
+}
+
+/* ---------- Companies grid ---------- */
+
+.logo-grid {
+  --grid-line: color-mix(in srgb, var(--ink) 70%, transparent);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px dashed var(--grid-line);
+  border-left: 1px dashed var(--grid-line);
+}
+.logo-cell {
+  position: relative;
+  aspect-ratio: 166 / 136;
+  border-right: 1px dashed var(--grid-line);
+  border-bottom: 1px dashed var(--grid-line);
+  display: grid;
+  place-items: center;
+}
+/* Dots at every intersection: each cell owns its bottom-right corner, the first row and
+   column add the top and left edges, and the grid itself covers the two remaining corners. */
+.logo-cell::before,
+.logo-cell::after,
+.logo-grid::before,
+.logo-grid::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--grid-line);
+  z-index: 1;
+}
+.logo-cell::after {
+  right: -4px;
+  bottom: -4px;
+}
+.logo-cell::before {
+  display: none;
+}
+.logo-cell:nth-child(-n + 4)::before {
+  display: block;
+  right: -4px;
+  top: -4px;
+}
+.logo-cell:nth-child(4n + 1):not(:first-child)::before {
+  display: block;
+  left: -4px;
+  top: -4px;
+}
+.logo-grid::before {
+  left: -4px;
+  top: -4px;
+}
+.logo-grid::after {
+  left: -4px;
+  bottom: -4px;
+}
+.logo {
+  display: block;
+  width: 58%;
+  aspect-ratio: 1;
+  background-color: color-mix(in srgb, var(--ink) 68%, transparent);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  transition: background-color 0.3s;
+}
+.logo:hover,
+.logo:focus-visible {
+  background-color: var(--ink);
+}
+
+/* ---------- Kind words stack ---------- */
+
+.note-stack {
+  position: relative;
+  width: 640px;
+  max-width: 100%;
+  height: 176px;
+  margin-inline: auto;
+  translate: -14px 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.kind-note {
+  position: absolute;
+  inset: 0;
+  padding: 18px 20px 18px;
+  background: var(--note-card);
+  transform-origin: 0 0;
+  transition:
+    rotate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.45s,
+    box-shadow 0.6s;
+}
+.kind-note[data-place="0"] {
+  rotate: 0deg;
+  translate: 0 0;
+  box-shadow: var(--note-shadow);
+}
+.kind-note[data-place="1"] {
+  rotate: 6.16deg;
+  translate: 20px -26px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+.kind-note[data-place="2"],
+.kind-note[data-place="3"],
+.kind-note[data-place="4"] {
+  rotate: -0.33deg;
+  translate: -12px 10px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+.kind-note[data-leaving] {
+  opacity: 0;
+  translate: 40% -18%;
+  rotate: 14deg;
+  transition-duration: 0.46s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.7, 0.2);
+}
+.kind-signature {
+  color: var(--signature-ink);
+}
+.kind-avatar {
+  position: absolute;
+  top: -37px;
+  left: 514px;
+  width: 97px;
+  height: 97px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+@media (max-width: 700px) {
+  .note-stack {
+    height: auto;
+    min-height: 190px;
+  }
+  .kind-note {
+    padding-bottom: 18px;
+  }
+  .kind-avatar {
+    left: auto;
+    right: 12px;
+    width: 64px;
+    height: 64px;
+    top: -24px;
+  }
+}
+
+/* ---------- Let's have coffee ---------- */
+
+[data-theme="dark"] .coffee-paper {
+  filter: invert(0.9) hue-rotate(180deg);
+}
+[data-theme="dark"] .copy-icon {
+  filter: invert(1);
+}
+.contact-line {
+  min-height: 37px;
+}
+.contact-bubble {
+  background: var(--note-card);
+  border-radius: 16px;
+  transform-origin: 0 100%;
+  animation: bubble-in 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+.contact-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 37px;
+  padding: 0 14px;
+}
+.contact-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--ink-muted);
+  animation: typing-dot 1s ease-in-out infinite;
+}
+.contact-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.contact-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.contact-compose {
+  width: 330px;
+  transform-origin: 100% 0;
+  animation: bubble-in 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+.compose-sheet {
+  --rule: 26px;
+  box-sizing: border-box;
+  width: 330px;
+  min-height: 114px;
+  padding: 8px 12px 10px;
+  rotate: 1.31deg;
+  transform-origin: 0 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 calc(var(--rule) - 1px),
+      color-mix(in srgb, #3c5ac8 30%, transparent) calc(var(--rule) - 1px) var(--rule)
+    ),
+    var(--note-card);
+  background-position: 0 6px, 0 0;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 0.06), 0 10px 24px -12px rgb(0 0 0 / 0.3);
+}
+.compose-field {
+  display: block;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: var(--ink);
+  line-height: 18px;
+}
+.compose-field::placeholder {
+  color: var(--ink-faint);
+}
+@keyframes bubble-in {
+  0% {
+    opacity: 0;
+    translate: 0 6px;
+    scale: 0.85;
+  }
+}
+@keyframes typing-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.45;
+    translate: 0;
+  }
+  30% {
+    opacity: 1;
+    translate: 0 -4px;
+  }
+}
+@media (max-width: 720px) {
+  .contact-compose {
+    position: static;
+    margin: 16px auto 0;
   }
 }

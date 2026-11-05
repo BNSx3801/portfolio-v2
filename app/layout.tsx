@@ -1,10 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Cedarville_Cursive, Inter, Mrs_Saint_Delafield } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const script = Mrs_Saint_Delafield({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-script",
+  display: "swap",
+});
+
+const hand = Cedarville_Cursive({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-hand",
   display: "swap",
 });
 
@@ -23,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-theme="light"
       suppressHydrationWarning
-      className={`${inter.variable} h-full`}
+      className={`${inter.variable} ${script.variable} ${hand.variable} h-full`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />

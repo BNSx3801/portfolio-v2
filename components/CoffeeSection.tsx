@@ -1,0 +1,195 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { contact } from "@/lib/site";
+
+const TYPING_MS = 900;
+const GAP_MS = 450;
+const LINES = 3;
+
+export function CoffeeSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [shown, setShown] = useState(0); // how many lines are revealed
+  const [typing, setTyping] = useState(false);
+  const [composeVisible, setComposeVisible] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  // Play the thread once the section scrolls into view.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    let timers: number[] = [];
+    const play = () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setShown(LINES);
+        setComposeVisible(true);
+        return;
+      }
+      let t = 0;
+      for (let i = 0; i < LINES; i++) {
+        timers.push(window.setTimeout(() => setTyping(true), t));
+        t += TYPING_MS;
+        timers.push(
+          window.setTimeout(() => {
+            setTyping(false);
+            setShown(i + 1);
+          }, t),
+        );
+        t += GAP_MS;
+      }
+      timers.push(window.setTimeout(() => setComposeVisible(true), t));
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          play();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      timers.forEach(clearTimeout);
+      timers = [];
+    };
+  }, []);
+
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(contact.email);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard unavailable */
+    }
+  }
+
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    // TODO: wire to a delivery backend. For now just acknowledge.
+    setSent(true);
+    e.currentTarget.reset();
+    window.setTimeout(() => setSent(false), 2500);
+  }
+
+  const typingAt = typing ? shown : -1; // which slot shows the dots
+
+  return (
+    <section id="contact" ref={sectionRef} className="mx-auto w-full max-w-[696px] px-4 pt-[187px]">
+      <h2 className="relative z-10 ml-[23px] font-[590]">Let&apos;s have coffee?</h2>
+
+      <div className="relative mt-[-34px] ml-[-3px] h-[587px] w-[671px] max-w-[calc(100%+6px)]">
+        <Image
+          src="/assets/coffee-paper.png"
+          alt=""
+          fill
+          sizes="671px"
+          className="coffee-paper object-contain"
+        />
+
+        <ol className="absolute top-[131px] left-[72px] flex w-[470px] flex-col gap-[10px]" aria-live="polite">
+          {/* line 1 */}
+          <li className="contact-line pl-[50px]">
+            {typingAt === 0 && <Typing />}
+            {shown > 0 && (
+              <p className="contact-bubble flex h-[60px] w-[403px] items-center px-[9px]">
+                Hey Stranger! Building/researching something cool? I&apos;d love to hear about it.
+              </p>
+            )}
+          </li>
+          {/* line 2 */}
+          <li className="contact-line pl-[50px]">
+            {typingAt === 1 && <Typing />}
+            {shown > 1 && (
+              <div className="flex items-center gap-[9px]">
+                <p className="contact-bubble flex h-[37px] w-[308px] items-center px-[9px] whitespace-nowrap">
+                  Email me at&nbsp;
+                  <a href={`mailto:${contact.email}`} className="font-bold underline underline-offset-2">
+                    {contact.email}
+                  </a>
+                </p>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  aria-label={copied ? "Copied" : "Copy email address"}
+                  className="contact-bubble grid h-[37px] w-[37px] cursor-pointer place-items-center rounded-full"
+                >
+                  {copied ? (
+                    <span className="text-[14px]">✓</span>
+                  ) : (
+                    <Image src="/assets/copy-icon.png" alt="" width={18} height={20} className="copy-icon" />
+                  )}
+                </button>
+              </div>
+            )}
+          </li>
+          {/* line 3, with the avatar */}
+          <li className="contact-line flex items-center gap-[13px]">
+            {(typingAt === 2 || shown > 2) && (
+              <span className="relative h-[37px] w-[37px] shrink-0 overflow-hidden rounded-full">
+                <Image src="/assets/avatar-bns.png" alt="" fill sizes="37px" className="object-cover" />
+              </span>
+            )}
+            {typingAt === 2 && <Typing />}
+            {shown > 2 && (
+              <p className="contact-bubble flex h-[37px] w-[368px] items-center px-[9px] whitespace-nowrap">
+                Or, leave me a note right here. I read everything!
+              </p>
+            )}
+          </li>
+        </ol>
+
+        {composeVisible && (
+          <form onSubmit={onSubmit} className="contact-compose absolute top-[356px] left-[286px]">
+            <div className="compose-sheet">
+              <label className="block font-hand text-[18px] leading-[22px] text-ink-muted" htmlFor="note">
+                Dear Bal Narayan,
+              </label>
+              <textarea
+                id="note"
+                name="note"
+                rows={1}
+                required
+                placeholder="your note"
+                className="compose-field mt-[4px] h-[26px] w-full resize-none"
+              />
+              <div className="mt-[6px] flex items-center gap-[12px] text-[14px] leading-[18px]">
+                <label htmlFor="from" className="text-ink-muted">
+                  From:
+                </label>
+                <input
+                  id="from"
+                  name="from"
+                  type="email"
+                  required
+                  placeholder="yourname@example.com"
+                  className="compose-field w-full"
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="button-ink absolute top-[133px] left-[186px] inline-flex h-[53px] w-[152px] items-center justify-center rounded-full bg-pill-bg font-bold text-pill-fg"
+            >
+              {sent ? "Folded ✓" : "Fold & Send"}
+            </button>
+          </form>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function Typing() {
+  return (
+    <span className="contact-bubble contact-typing" aria-label="typing">
+      <span />
+      <span />
+      <span />
+    </span>
+  );
+}

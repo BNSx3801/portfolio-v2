@@ -44,3 +44,63 @@ export const bio = [
   "Over the past few years, I’ve worked across Developer Relations, Product and Business Development, navigating the Web3 and AI ecosystems. From building communities and forging partnerships to researching markets and shaping product experiences.",
   "These days, I’m usually building something, exploring new technology or falling down an unexpected rabbit hole. When I’m not at my desk, you’ll probably find me out on my motorcycle, experimenting with my camera or discovering something new.",
 ];
+
+export type Company = { name: string; logo: string; href?: string };
+
+// Alpha-mask PNGs in /public/logos (generated from the supplied artwork); tinted with the ink token.
+export const companies: Company[] = [
+  { name: "Reef", logo: "/logos/reef.png" },
+  { name: "Funnel", logo: "/logos/funnel.png" },
+  { name: "Deon Labs", logo: "/logos/deon.png" },
+  { name: "NodeOps", logo: "/logos/nodeops.png" },
+  { name: "Airtribe", logo: "/logos/airtribe.png" },
+  { name: "DoraHacks", logo: "/logos/dorahacks.png" },
+  { name: "Atrium", logo: "/logos/atrium.png" },
+];
+
+export type Note = {
+  firstName: string;
+  author: string;
+  role: string;
+  quote: string;
+  avatar: string;
+};
+
+// Only the first note comes from the design; the other two are placeholders to replace.
+export const notes: Note[] = [
+  {
+    firstName: "Alex",
+    author: "Alex Albano",
+    role: "Ex-CMO, NodeOps",
+    quote:
+      "“Bal Narayan joined in as intern for three months at NodeOps, and he was operating at a level most people reach several years into their career.”",
+    avatar: "/assets/avatar-alex.png",
+  },
+  {
+    firstName: "Priya",
+    author: "Priya Menon",
+    role: "Head of Product, Airtribe",
+    quote:
+      "“Placeholder note two. BNS connected product, community and GTM in a way that made the whole team move faster.”",
+    avatar: "/assets/avatar-alex.png",
+  },
+  {
+    firstName: "Daniel",
+    author: "Daniel Oyelaran",
+    role: "Founder, DoraHacks",
+    quote:
+      "“Placeholder note three. Thoughtful, quick to ship, and always asking the question nobody else had asked yet.”",
+    avatar: "/assets/avatar-alex.png",
+  },
+];
+
+export const contact = {
+  name: "Bal Narayan Singh (BNS)",
+  email: "work.bnsingh@gmail.com",
+  // TODO: real booking + social URLs
+  callHref: "#",
+  linkedin: "#",
+  x: "#",
+  telegram: "#",
+  lastUpdated: "Nov 5, 2026",
+};
