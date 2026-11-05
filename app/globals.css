@@ -38,6 +38,7 @@
   --font-sans: -apple-system, "SF Pro", var(--font-inter), system-ui, sans-serif;
   --font-script: var(--font-script), cursive;
   --font-hand: var(--font-hand), cursive;
+  --font-signature: var(--font-signature), cursive;
 }
 
 html {
@@ -49,7 +50,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 14px;
   line-height: 20px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -74,9 +75,9 @@ body {
 .sig-link::after {
   content: "";
   position: absolute;
-  left: 22px;
-  right: 22px;
-  bottom: 14px;
+  left: 2px;
+  right: 2px;
+  bottom: 4px;
   height: 1px;
   background: var(--ink);
   transform: scaleX(0);
@@ -89,10 +90,47 @@ body {
 }
 
 .signature {
-  filter: saturate(0);
+  color: var(--ink);
+  -webkit-mask-image: linear-gradient(to right, #000 0 50%, transparent 58%);
+  mask-image: linear-gradient(to right, #000 0 50%, transparent 58%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: sign 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
-[data-theme="dark"] .signature {
-  filter: saturate(0) invert(1);
+/* Writes itself left to right, holds, fades, and starts again. */
+@keyframes sign {
+  0% {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    opacity: 1;
+  }
+  55% {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+    opacity: 1;
+  }
+  84% {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+    opacity: 1;
+  }
+  92% {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+    opacity: 0;
+  }
+  93% {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    opacity: 0;
+  }
+  100% {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    opacity: 1;
+  }
 }
 [data-theme="dark"] .illustration {
   filter: invert(0.92) hue-rotate(180deg);
@@ -193,7 +231,7 @@ body {
 .hello {
   display: inline-grid;
   box-sizing: border-box;
-  height: 32px;
+  height: 30px;
   padding-block: 4px;
   margin-block: -4px;
   overflow: hidden;
@@ -305,8 +343,13 @@ body {
   .fade-out,
   .contact-bubble,
   .contact-compose,
-  .contact-typing span {
+  .contact-typing span,
+  .signature {
     animation: none;
+  }
+  .signature {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   .rail {
     overflow-x: auto;

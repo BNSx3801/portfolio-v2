@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cedarville_Cursive, Inter, Mrs_Saint_Delafield } from "next/font/google";
+import { Cedarville_Cursive, Inter, Mrs_Saint_Delafield, Qwitcher_Grypen } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,6 +22,13 @@ const hand = Cedarville_Cursive({
   display: "swap",
 });
 
+const signature = Qwitcher_Grypen({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-signature",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Bal Narayan Singh (BNS)",
   description:
@@ -37,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-theme="light"
       suppressHydrationWarning
-      className={`${inter.variable} ${script.variable} ${hand.variable} h-full`}
+      className={`${inter.variable} ${script.variable} ${hand.variable} ${signature.variable} h-full`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />

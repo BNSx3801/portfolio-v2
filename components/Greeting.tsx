@@ -31,7 +31,7 @@ export function Greeting() {
 
   return (
     <p className="flex items-end gap-[5px]">
-      <span className="hello text-[20px] leading-[24px] font-bold" aria-live="polite">
+      <span className="hello text-[18px] leading-[22px] font-bold" aria-live="polite">
         {prev && (
           <span key={`out-${previous}`} className="hello-out" aria-hidden="true">
             {prev.word}
@@ -41,7 +41,7 @@ export function Greeting() {
           {current.word}
         </span>
       </span>
-      <span className="hello text-ink-muted" style={{ height: 28 }}>
+      <span className="hello text-ink-muted" style={{ height: 26 }}>
         {prev && (
           <span key={`out-${previous}`} className="fade-out" aria-hidden="true">
             {prev.lang}

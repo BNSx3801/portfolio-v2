@@ -35,7 +35,7 @@ export function Footer() {
           </dd>
         </div>
       </dl>
-      <div className="ml-8 mr-[37px] flex items-center justify-between pt-[43px] text-[12px] leading-[16px]">
+      <div className="ml-8 mr-[37px] flex items-center justify-between pt-[43px] text-[10px] leading-[14px]">
         <p>Last updated on {contact.lastUpdated}</p>
         <a href="#top" className="link-underline">Back to top ↑</a>
       </div>

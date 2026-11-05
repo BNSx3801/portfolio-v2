@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Clock } from "./Clock";
 import { SoundToggle } from "./SoundToggle";
@@ -16,21 +15,16 @@ export function Nav() {
       <Link
         href="/"
         aria-label="Bal Narayan Singh, home"
-        className="sig-link xl:absolute xl:-top-[3px] xl:left-4"
+        className="sig-link xl:absolute xl:top-[12px] xl:left-4"
       >
-        <Image
-          src="/assets/signature.png"
-          alt=""
-          width={167}
-          height={84}
-          priority
-          className="signature h-[84px] w-[167px]"
-        />
+        <span aria-hidden="true" className="signature block font-signature text-[32px] leading-[40px] whitespace-nowrap">
+          Bal Narayan Singh
+        </span>
       </Link>
 
       <nav
         aria-label="Primary"
-        className="flex gap-8 xl:absolute xl:top-[22px] xl:left-[212px] xl:gap-[61px]"
+        className="flex gap-6 xl:absolute xl:top-[22px] xl:left-[212px] xl:gap-[40px]"
       >
         {links.map((l) => (
           <a key={l.label} href={l.href} className="link-underline">
@@ -39,7 +33,7 @@ export function Nav() {
         ))}
       </nav>
 
-      <div className="flex flex-wrap items-center gap-x-8 gap-y-2 xl:absolute xl:top-[22px] xl:right-10 xl:flex-nowrap">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 xl:absolute xl:top-[22px] xl:right-10 xl:flex-nowrap">
         {/* TODO: replace with the real cal.com booking link */}
         <a href="#" className="link-underline">
           Book a Call

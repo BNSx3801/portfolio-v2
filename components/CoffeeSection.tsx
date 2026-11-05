@@ -119,7 +119,7 @@ export function CoffeeSection() {
                   className="contact-bubble grid h-[37px] w-[37px] cursor-pointer place-items-center rounded-full"
                 >
                   {copied ? (
-                    <span className="text-[14px]">✓</span>
+                    <span className="text-[12px]">✓</span>
                   ) : (
                     <Image src="/assets/copy-icon.png" alt="" width={18} height={20} className="copy-icon" />
                   )}
@@ -146,7 +146,7 @@ export function CoffeeSection() {
         {composeVisible && (
           <form onSubmit={onSubmit} className="contact-compose absolute top-[356px] left-[286px]">
             <div className="compose-sheet">
-              <label className="block font-hand text-[18px] leading-[22px] text-ink-muted" htmlFor="note">
+              <label className="block font-hand text-[16px] leading-[20px] text-ink-muted" htmlFor="note">
                 Dear Bal Narayan,
               </label>
               <textarea
@@ -157,7 +157,7 @@ export function CoffeeSection() {
                 placeholder="your note"
                 className="compose-field mt-[4px] h-[26px] w-full resize-none"
               />
-              <div className="mt-[6px] flex items-center gap-[12px] text-[14px] leading-[18px]">
+              <div className="mt-[6px] flex items-center gap-[12px] text-[12px] leading-[16px]">
                 <label htmlFor="from" className="text-ink-muted">
                   From:
                 </label>
