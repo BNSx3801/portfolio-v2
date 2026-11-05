@@ -1,0 +1,46 @@
+export type Greeting = { word: string; lang: string };
+
+export const greetings: Greeting[] = [
+  { word: "Hello,", lang: "English" },
+  { word: "नमस्ते,", lang: "Hindi" },
+  { word: "Hallo,", lang: "German" },
+  { word: "Bonjour,", lang: "French" },
+  { word: "Hola,", lang: "Español" },
+  { word: "ನಮಸ್ಕಾರ,", lang: "Kannada" },
+  { word: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ,", lang: "Punjabi" },
+  { word: "নমস্কার,", lang: "Bengali" },
+  { word: "નમસ્તે,", lang: "Gujarati" },
+];
+
+export type Photo = { src: string; alt: string };
+
+// The design supplies one portrait. Drop real photos into /public/photos and list them here;
+// the stack shows the first entry on top and cycles through the rest.
+export const photos: Photo[] = [
+  { src: "/assets/portrait.png", alt: "Bal Narayan Singh, portrait one" },
+  { src: "/assets/portrait.png", alt: "Bal Narayan Singh, portrait two" },
+  { src: "/assets/portrait.png", alt: "Bal Narayan Singh, portrait three" },
+];
+
+export type ProjectMedia = { type: "image" | "video"; src: string };
+
+export type Project = {
+  title: string;
+  subtitle: string;
+  href: string;
+  // Filled in later with ImageKit assets. Until then the card renders the maroon placeholder.
+  media?: ProjectMedia;
+};
+
+export const projects: Project[] = [
+  { title: "ExamSeries", subtitle: "Pseudo Line", href: "#" },
+  { title: "Project Two", subtitle: "Pseudo Line", href: "#" },
+  { title: "Project Three", subtitle: "Pseudo Line", href: "#" },
+  { title: "Project Four", subtitle: "Pseudo Line", href: "#" },
+];
+
+export const bio = [
+  'I’m BNS, and while I like to call myself a "true generalist", my expertise leans towards Product Ops and GTM (more of a PMM actually). I enjoy connecting the dots b/w product, tech & business, and turning ideas into things people actually use. Currently building ExamSeries. Listing some of my fav work below.',
+  "Over the past few years, I’ve worked across Developer Relations, Product and Business Development, navigating the Web3 and AI ecosystems. From building communities and forging partnerships to researching markets and shaping product experiences.",
+  "These days, I’m usually building something, exploring new technology or falling down an unexpected rabbit hole. When I’m not at my desk, you’ll probably find me out on my motorcycle, experimenting with my camera or discovering something new.",
+];

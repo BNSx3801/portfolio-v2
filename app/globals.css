@@ -1,26 +1,307 @@
 @import "tailwindcss";
 
+/* ---------- Theme tokens ---------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #e7e7e7;
+  --ink: #000000;
+  --pill-bg: #000000;
+  --pill-fg: #ffffff;
+  --card: #8a534b;
+  --ink-muted: color-mix(in srgb, var(--ink) 70%, transparent);
+  --ink-faint: color-mix(in srgb, var(--ink) 50%, transparent);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --paper: #111111;
+  --ink: #e7e7e7;
+  --pill-bg: #e7e7e7;
+  --pill-fg: #111111;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-card: var(--card);
+  --color-pill-bg: var(--pill-bg);
+  --color-pill-fg: var(--pill-fg);
+  --font-sans: -apple-system, "SF Pro", var(--font-inter), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--paper);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+}
+
+/* ---------- Nav links: underline grows left → right ---------- */
+
+.link-underline {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.3s;
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+.sig-link {
+  position: relative;
+  display: inline-block;
+}
+.sig-link::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 14px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s;
+}
+.sig-link:hover::after,
+.sig-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.signature {
+  filter: saturate(0);
+}
+[data-theme="dark"] .signature {
+  filter: saturate(0) invert(1);
+}
+[data-theme="dark"] .illustration {
+  filter: invert(0.92) hue-rotate(180deg);
+}
+/* Cream note paper becomes a dark sheet; invert + hue-rotate keeps the red pin and blue rules. */
+[data-theme="dark"] .note-paper {
+  filter: invert(0.9) hue-rotate(180deg);
+}
+
+/* ---------- Magnetic CTA + sticky note ---------- */
+
+.button-ink {
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: translate;
+}
+.button-ink:hover {
+  transform: translateY(-1px);
+}
+.button-ink:active {
+  transform: scale(0.97);
+}
+
+/* The whole note swings on hover, hinged at the pin in its top-right corner. */
+.note {
+  transform-origin: 95% 8%;
+  transition: rotate 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.note:hover {
+  rotate: 3deg;
+}
+
+/* ---------- Theme sweep (View Transitions) ---------- */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  will-change: clip-path;
+}
+
+/* ---------- Photo stack ---------- */
+
+.photo-stack {
+  position: relative;
+  width: 210px;
+  height: 280px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.photo-print {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+  transform-origin: 0 0;
+  transition:
+    rotate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    scale 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.45s;
+}
+.photo-print img {
+  filter: grayscale(1);
+  transition: filter 0.5s;
+}
+.photo-stack:hover .photo-print img {
+  filter: grayscale(0);
+}
+.photo-print[data-place="0"] {
+  rotate: 0deg;
+  translate: 0 0;
+}
+.photo-print[data-place="1"] {
+  rotate: 2.5deg;
+  translate: 19px -4px;
+}
+.photo-print[data-place="2"],
+.photo-print[data-place="3"],
+.photo-print[data-place="4"] {
+  rotate: 5deg;
+  translate: 36px -9px;
+  scale: 0.97;
+  opacity: 0;
+}
+.photo-print[data-leaving] {
+  opacity: 0;
+  translate: 40% -18%;
+  rotate: 14deg;
+  transition-duration: 0.46s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.7, 0.2);
+}
+
+/* ---------- Greeting flip ---------- */
+
+.hello {
+  display: inline-grid;
+  box-sizing: border-box;
+  height: 32px;
+  padding-block: 4px;
+  margin-block: -4px;
+  overflow: hidden;
+}
+.hello > span {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+}
+.hello-in {
+  animation: hello-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.hello-out {
+  animation: hello-out 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.fade-in {
+  animation: fade-in 0.55s both;
+}
+.fade-out {
+  animation: fade-out 0.55s both;
+}
+@keyframes hello-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(65%);
+  }
+}
+@keyframes hello-out {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(-65%);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---------- Project rail (marquee) ---------- */
+
+.rail {
+  overflow: hidden;
+  padding-left: max(78px, calc((100vw - 1440px) / 2 + 78px));
+}
+.rail-track {
+  display: flex;
+  width: max-content;
+  animation: rail 70s linear infinite;
+}
+.rail:hover .rail-track {
+  animation-play-state: paused;
+}
+.rail-set {
+  display: flex;
+  flex: none;
+  gap: 28px;
+  padding-right: 28px;
+}
+@keyframes rail {
+  to {
+    translate: -50% 0;
+  }
+}
+
+.card {
+  display: block;
+  width: min(840px, 82vw);
+  aspect-ratio: 14 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card);
+}
+.card-media {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(60% 50% at 30% 25%, rgb(255 255 255 / 0.08), transparent 70%),
+    var(--card);
+  transition: scale 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.card:hover .card-media {
+  scale: 1.03;
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .link-underline,
+  .sig-link::after,
+  .photo-print,
+  .photo-print img,
+  .card-media,
+  .button-ink,
+  .note {
+    transition: none;
+  }
+  .hello-in,
+  .hello-out,
+  .fade-in,
+  .fade-out {
+    animation: none;
+  }
+  .rail {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .rail-track {
+    animation: none;
+  }
+  .rail-set[aria-hidden="true"] {
+    display: none;
+  }
 }
