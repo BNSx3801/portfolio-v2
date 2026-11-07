@@ -3,10 +3,13 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { contact } from "@/lib/site";
+import { isSoundOn } from "@/lib/sound";
 
 const TYPING_MS = 900;
-const GAP_MS = 450;
+// Pause after a bubble lands before the next typing indicator; long enough for the tune (~0.46s) to finish.
+const GAP_MS = 650;
 const LINES = 3;
+const TUNE_SRC = "/assets/iMessage-tune.mp3";
 
 export function CoffeeSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -16,11 +19,25 @@ export function CoffeeSection() {
   const [copied, setCopied] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  const tuneRef = useRef<HTMLAudioElement | null>(null);
+
+  // Plays the iMessage tune when a bubble lands, if sound is on. Browsers may refuse until the
+  // visitor has interacted with the page once; in that case it just stays quiet.
+  const ping = () => {
+    if (!isSoundOn()) return;
+    const tune = tuneRef.current;
+    if (!tune) return;
+    tune.currentTime = 0;
+    tune.play().catch(() => {});
+  };
 
   // Play the thread once the section scrolls into view.
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
+    const tune = new Audio(TUNE_SRC);
+    tune.preload = "auto";
+    tuneRef.current = tune;
     let timers: number[] = [];
     const play = () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -36,6 +53,7 @@ export function CoffeeSection() {
           window.setTimeout(() => {
             setTyping(false);
             setShown(i + 1);
+            ping();
           }, t),
         );
         t += GAP_MS;
@@ -56,6 +74,8 @@ export function CoffeeSection() {
       io.disconnect();
       timers.forEach(clearTimeout);
       timers = [];
+      tune.pause();
+      tuneRef.current = null;
     };
   }, []);
 
