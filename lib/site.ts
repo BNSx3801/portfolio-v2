@@ -48,7 +48,12 @@ export const projects: Project[] = [
       { type: "image", src: "/assets/ES-Regen-04.png", alt: "ExamSeries, screen four" },
     ],
   },
-  { title: "Project Two", subtitle: "Pseudo Line", href: "#" },
+  {
+    title: "GTM & Product Ops",
+    subtitle: "GTM Engineering, Funnel Optimisation, Data & Decisions.",
+    href: "#",
+    media: [{ type: "image", src: "/assets/Card-02.png", alt: "Career impact at NodeOps, Airtribe, Reef and Deon" }],
+  },
   { title: "Project Three", subtitle: "Pseudo Line", href: "#" },
   { title: "Project Four", subtitle: "Pseudo Line", href: "#" },
 ];
