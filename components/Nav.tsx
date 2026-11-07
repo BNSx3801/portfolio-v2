@@ -15,7 +15,7 @@ export function Nav() {
     // Pinned to the viewport. The inner frame mirrors the hero's 1440px frame so the xl
     // absolute coordinates still line up with the design.
     <header className="fixed inset-x-0 top-0 z-50 bg-paper/85 backdrop-blur-md">
-      <div className="relative mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-3 xl:block xl:h-[64px] xl:px-0 xl:py-0">
+      <div className="relative mx-auto flex max-w-[1440px] items-center justify-between gap-4 py-3 pr-7 pl-5 xl:block xl:h-[64px] xl:px-0 xl:py-0">
         <Link
           href="/"
           aria-label="Bal Narayan Singh, home"

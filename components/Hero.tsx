@@ -46,7 +46,7 @@ export function Hero() {
         </MagneticButton>
       </div>
 
-      <CurrentlyBuilding className="mt-10 xl:absolute xl:top-[792px] xl:left-[732px] xl:mt-0" />
+      <CurrentlyBuilding className="mt-4 self-end xl:absolute xl:top-[792px] xl:left-[732px] xl:mt-0 xl:self-auto" />
     </section>
   );
 }

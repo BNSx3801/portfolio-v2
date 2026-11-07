@@ -669,9 +669,17 @@ button,
     font-size: 16px;
     line-height: 24px;
   }
+  /* Signature, links and the theme icon must fit a 375px row with the header's own padding. */
   .sig-link .signature {
-    font-size: 26px;
-    line-height: 32px;
+    font-size: 22px;
+    line-height: 28px;
+  }
+  header nav {
+    gap: 12px;
+    font-size: 15px;
+  }
+  header > div {
+    gap: 12px;
   }
   .hello-word {
     font-size: 28px;
@@ -679,10 +687,13 @@ button,
   }
   .photo-stack {
     width: min(210px, 46vw);
+    /* The prints behind the top one fan out to the right; keep them off the screen edge. */
+    margin-right: 20px;
   }
   .note {
     scale: 0.86;
-    transform-origin: 0 0;
+    /* Scaled from the top-right so the note hugs the right edge of the column. */
+    transform-origin: 100% 0;
     margin-bottom: -18px;
   }
   .rail {
