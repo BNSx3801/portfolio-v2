@@ -14,7 +14,8 @@ export function CoffeeSection() {
   const [typing, setTyping] = useState(false);
   const [composeVisible, setComposeVisible] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
 
   // Play the thread once the section scrolls into view.
   useEffect(() => {
@@ -68,12 +69,30 @@ export function CoffeeSection() {
     }
   }
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: wire to a delivery backend. For now just acknowledge.
-    setSent(true);
-    e.currentTarget.reset();
-    window.setTimeout(() => setSent(false), 2500);
+    if (status === "sending") return;
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setStatus("sending");
+    setError(null);
+    try {
+      const res = await fetch("/api/note", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ note: data.get("note"), from: data.get("from"), website: data.get("website") }),
+      });
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(body?.error ?? "Couldn't deliver the note. Please try again.");
+      }
+      setStatus("sent");
+      form.reset();
+      window.setTimeout(() => setStatus("idle"), 3000);
+    } catch (err) {
+      setStatus("error");
+      setError(err instanceof Error ? err.message : "Couldn't deliver the note. Please try again.");
+    }
   }
 
   const typingAt = typing ? shown : -1; // which slot shows the dots
@@ -170,13 +189,30 @@ export function CoffeeSection() {
                   className="compose-field w-full"
                 />
               </div>
+              {/* Honeypot for bots; hidden from people and assistive tech. */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] h-0 w-0 opacity-0"
+              />
             </div>
             <button
               type="submit"
-              className="button-ink absolute top-[133px] left-[186px] inline-flex h-[53px] w-[152px] items-center justify-center rounded-full bg-pill-bg font-bold text-pill-fg"
+              disabled={status === "sending"}
+              className="button-ink absolute top-[133px] left-[186px] inline-flex h-[53px] w-[152px] items-center justify-center rounded-full bg-pill-bg font-bold text-pill-fg disabled:opacity-70"
             >
-              {sent ? "Folded ✓" : "Fold & Send"}
+              {status === "sending" ? "Folding…" : status === "sent" ? "Folded ✓" : status === "error" ? "Try again" : "Fold & Send"}
             </button>
+            <p
+              role="status"
+              aria-live="polite"
+              className="absolute top-[192px] left-[160px] w-[204px] text-center text-[11px] leading-[14px] text-ink-muted"
+            >
+              {status === "sent" ? "Thanks, it's on its way to me." : status === "error" ? error : ""}
+            </p>
           </form>
         )}
       </div>
