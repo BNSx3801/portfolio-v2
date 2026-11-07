@@ -95,7 +95,6 @@ export type Note = {
   avatar: string;
 };
 
-// Only the first note comes from the design; the other two are placeholders to replace.
 export const notes: Note[] = [
   {
     firstName: "Alex",
@@ -106,20 +105,12 @@ export const notes: Note[] = [
     avatar: "/assets/avatar-alex.png",
   },
   {
-    firstName: "Priya",
-    author: "Priya Menon",
-    role: "Head of Product, Airtribe",
+    firstName: "Dhaval",
+    author: "Dhaval Trivedi",
+    role: "CEO, Airtribe",
     quote:
-      "“Placeholder note two. BNS connected product, community and GTM in a way that made the whole team move faster.”",
-    avatar: "/assets/avatar-alex.png",
-  },
-  {
-    firstName: "Daniel",
-    author: "Daniel Oyelaran",
-    role: "Founder, DoraHacks",
-    quote:
-      "“Placeholder note three. Thoughtful, quick to ship, and always asking the question nobody else had asked yet.”",
-    avatar: "/assets/avatar-alex.png",
+      "“Appreciation to Bal Narayan Singh for being a team player, getting 11 realised & 15 projected conversions in a month.”",
+    avatar: "/assets/avatar-dhaval.jpg",
   },
 ];
 

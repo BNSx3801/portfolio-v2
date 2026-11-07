@@ -476,7 +476,8 @@ button,
   position: relative;
   width: 640px;
   max-width: 100%;
-  height: 176px;
+  /* Fits a three-line quote; the column stops short of the avatar on the right. */
+  height: 184px;
   margin-inline: auto;
   translate: -14px 0;
   cursor: pointer;
