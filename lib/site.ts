@@ -54,7 +54,12 @@ export const projects: Project[] = [
     href: "#",
     media: [{ type: "image", src: "/assets/Card-02.png", alt: "Career impact at NodeOps, Airtribe, Reef and Deon" }],
   },
-  { title: "Project Three", subtitle: "Pseudo Line", href: "#" },
+  {
+    title: "Research & Writings",
+    subtitle: "Mixed-Method Research, Protocol/Architecture Analysis, Investment Memos.",
+    href: "#",
+    media: [{ type: "image", src: "/assets/Research-Card.png", alt: "Research and writing samples" }],
+  },
   { title: "Project Four", subtitle: "Pseudo Line", href: "#" },
 ];
 
