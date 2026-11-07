@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cedarville_Cursive, Inter, Mrs_Saint_Delafield, Qwitcher_Grypen } from "next/font/google";
 import "./globals.css";
+import { ClickSound } from "@/components/ClickSound";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
@@ -51,7 +52,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <ClickSound />
+        {children}
+      </body>
     </html>
   );
 }

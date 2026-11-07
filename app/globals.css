@@ -15,6 +15,8 @@
   --ink-muted: color-mix(in srgb, var(--ink) 70%, transparent);
   --ink-faint: color-mix(in srgb, var(--ink) 50%, transparent);
   color-scheme: light;
+  /* Anchor targets stop below the fixed nav. */
+  scroll-padding-top: 72px;
 }
 
 [data-theme="dark"] {
@@ -57,6 +59,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-synthesis: none;
+}
+
+/* ---------- Sticker cursor ---------- */
+
+/* Hotspot (2 2) sits on the arrow tip. Unlayered, so it beats Tailwind's cursor-* utilities. */
+:root {
+  --cursor: url("/assets/sticker_cursor.svg") 2 2, auto;
+}
+html,
+body,
+a,
+button,
+[role="button"],
+.cursor-pointer,
+.rail {
+  cursor: var(--cursor);
 }
 
 /* ---------- Nav links: underline grows left → right ---------- */
@@ -294,13 +312,9 @@ body {
   overflow-x: clip;
   overflow-y: visible;
   padding-left: max(78px, calc((100vw - 1440px) / 2 + 78px));
-  cursor: grab;
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
-}
-.rail.is-dragging {
-  cursor: grabbing;
 }
 .rail.is-dragging .card {
   pointer-events: none;

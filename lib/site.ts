@@ -60,7 +60,12 @@ export const projects: Project[] = [
     href: "#",
     media: [{ type: "image", src: "/assets/Research-Card.png", alt: "Research and writing samples" }],
   },
-  { title: "Project Four", subtitle: "Pseudo Line", href: "#" },
+  {
+    title: "Builds",
+    subtitle: "FOSS, Arbitrage & Hedging Projects, etc.",
+    href: "#",
+    media: [{ type: "image", src: "/assets/Build-Card.png", alt: "Open-source, arbitrage and hedging projects" }],
+  },
 ];
 
 export const bio = [

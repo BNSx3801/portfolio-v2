@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
+import { isSoundOn, setSound, soundServerSnapshot, subscribeSound } from "@/lib/sound";
 
-// Stub: toggles state only. Hook up audio here once the sound design is decided.
 export function SoundToggle() {
-  const [on, setOn] = useState(true);
+  const on = useSyncExternalStore(subscribeSound, isSoundOn, soundServerSnapshot);
   return (
     <button
       type="button"
       aria-pressed={on}
-      onClick={() => setOn((v) => !v)}
+      onClick={() => setSound(!on)}
       className="link-underline cursor-pointer text-ink-muted"
     >
       {on ? "Sound On" : "Sound Off"}
