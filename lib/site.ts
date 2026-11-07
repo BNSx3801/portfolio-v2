@@ -21,20 +21,33 @@ export const photos: Photo[] = [
   { src: "/photos/bns-waterfall.jpg", alt: "Bal Narayan Singh on a staircase in front of a waterfall, helmet in hand" },
 ];
 
-export type ProjectMedia = { type: "image" | "video"; src: string };
+export type ProjectMedia = { type: "image" | "video"; src: string; alt?: string };
 
 export type Project = {
   title: string;
   subtitle: string;
+  // Optional, rendered after the subtitle as "subtitle · roles" in italic.
+  roles?: string;
   href: string;
-  // Filled in later with ImageKit assets. Until then the card renders the maroon placeholder.
-  media?: ProjectMedia;
+  // One entry renders a still; several crossfade as a slideshow. Empty renders the maroon placeholder.
+  media?: ProjectMedia[];
 };
 
 export const examSeriesUrl = "https://ca.examseries.co.in/";
 
 export const projects: Project[] = [
-  { title: "ExamSeries", subtitle: "Pseudo Line", href: examSeriesUrl },
+  {
+    title: "Venture-01",
+    subtitle: "ExamSeries",
+    roles: "User Research, Prototyping, and Ops",
+    href: examSeriesUrl,
+    media: [
+      { type: "image", src: "/assets/ES-Regen-01.png", alt: "Students writing a CA mock exam" },
+      { type: "image", src: "/assets/ES-Regen-02.png", alt: "ExamSeries app home screen on a phone" },
+      { type: "image", src: "/assets/ES-Regen-03.png", alt: "ExamSeries, screen three" },
+      { type: "image", src: "/assets/ES-Regen-04.png", alt: "ExamSeries, screen four" },
+    ],
+  },
   { title: "Project Two", subtitle: "Pseudo Line", href: "#" },
   { title: "Project Three", subtitle: "Pseudo Line", href: "#" },
   { title: "Project Four", subtitle: "Pseudo Line", href: "#" },

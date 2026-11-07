@@ -4,6 +4,8 @@ import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
+  // Italic face is needed for the project captions; font-synthesis is off globally.
+  style: ["normal", "italic"],
   variable: "--font-inter",
   display: "swap",
 });
