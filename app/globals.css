@@ -547,9 +547,11 @@ button,
   left: var(--x-right);
 }
 .career-flag,
-.career-pin {
+.career-pin,
+.career-grad {
   display: block;
   fill: var(--ink);
+  color: var(--ink);
 }
 .career-pin-hole {
   fill: var(--paper);
@@ -608,18 +610,18 @@ button,
 @media (max-width: 639px) {
   .career-map {
     --row: 110px;
-    --x-left: 28px;
-    --x-right: 76px;
+    --x-left: 40px;
+    --x-right: 88px;
   }
   .career-label,
   .career-stop[data-side="right"] .career-label {
-    left: 112px;
+    left: 124px;
     right: 0;
     width: auto;
     text-align: left;
   }
   .career-end .career-anchor {
-    left: 52px;
+    left: 64px;
   }
 }
 

@@ -94,17 +94,20 @@ export type CareerStop = {
   role: string;
   org: string;
   dates: string;
+  // pin marks where the road starts, grad the graduation; everything else gets a flag.
+  marker?: "pin" | "grad";
 };
 
-// Ordered by start date. The career map draws these top to bottom; the first stop gets the pin.
+// Ordered by date. The trail itself stands for the college years, bookended by the pin and the cap.
 export const career: CareerStop[] = [
-  { role: "B.Tech (ECE)", org: "LNMIIT, Jaipur", dates: "Oct 2022 – Jun 2026" },
+  { role: "Started B.Tech (ECE)", org: "LNMIIT, Jaipur", dates: "Oct 2022", marker: "pin" },
   { role: "Developer Relations", org: "Reef Chain", dates: "Oct 2023 – Jan 2024" },
   { role: "Head of Partnerships / Lead Organiser", org: "LNMHacks 7.0", dates: "Feb 2024 – Mar 2025" },
   { role: "Growth Analyst", org: "Deon Labs", dates: "Apr 2024 – Dec 2024" },
   { role: "Researcher", org: "PYOR Inc.", dates: "May 2024 · Contract" },
   { role: "BD & Partnerships", org: "NodeOps", dates: "Feb 2026 – May 2026" },
   { role: "Business Development", org: "Airtribe", dates: "May 2026 – Aug 2026" },
+  { role: "Graduated, B.Tech (ECE)", org: "LNMIIT, Jaipur", dates: "Jun 2026", marker: "grad" },
   { role: "Co-Founder & CEO", org: "ExamSeries", dates: "Aug 2026 – Present" },
 ];
 

@@ -116,7 +116,7 @@ export function CareerMap() {
           {career.map((stop, i) => (
             <li key={`${stop.org}-${stop.dates}`} className="career-stop" data-side={i % 2 ? "right" : "left"}>
               <span className="career-anchor" aria-hidden="true">
-                {i === 0 ? <PinIcon /> : <FlagIcon />}
+                {stop.marker === "pin" ? <PinIcon /> : stop.marker === "grad" ? <GradIcon /> : <FlagIcon />}
               </span>
               <div className="career-label">
                 <p className="font-[590]">{stop.role}</p>
@@ -141,6 +141,18 @@ function FlagIcon() {
       <rect x="11" y="0" width="4" height="41" rx="2" />
       <path d="M4 44v-3a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v3z" />
       <path d="M15 3l11 7.5L15 18z" />
+    </svg>
+  );
+}
+
+// Mortarboard for graduation; the bottom of the cap is the ground point.
+function GradIcon() {
+  return (
+    <svg className="career-grad" viewBox="0 0 32 26" width="32" height="26">
+      <path d="M16 1L31 8.5 16 16 1 8.5z" />
+      <path d="M8 12.5v6c0 2.5 3.6 4.5 8 4.5s8-2 8-4.5v-6l-8 4z" />
+      <path d="M29 9.5v8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="29" cy="19" r="1.6" />
     </svg>
   );
 }
