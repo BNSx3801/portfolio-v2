@@ -480,6 +480,149 @@ button,
   background-color: var(--ink);
 }
 
+/* ---------- Career map ---------- */
+
+/* Stops alternate sides; labels sit on the outer side of each bend, standing on the trail's
+   flat run, so the diagonals and loops never cross the text. */
+.career-map {
+  --trail: color-mix(in srgb, var(--ink) 70%, transparent);
+  --row: 104px;
+  --label-w: clamp(150px, 28vw, 200px);
+  --gap: 32px;
+  --x-left: calc(var(--label-w) + var(--gap));
+  --x-right: calc(100% - var(--label-w) - var(--gap));
+  position: relative;
+}
+@media (min-width: 900px) {
+  .career-map {
+    --label-w: 220px;
+    /* Let the trail swing wider than the 696 column. */
+    margin-inline: -92px;
+  }
+}
+.career-trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.career-dash {
+  fill: none;
+  stroke: var(--trail);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 5 8;
+}
+.career-reveal {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+.career-stops {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.career-stop {
+  position: relative;
+  height: var(--row);
+}
+/* The first label stands at the bottom of its row; keep it close to the heading. */
+.career-stop:first-child {
+  height: 84px;
+}
+.career-anchor {
+  position: absolute;
+  bottom: 0;
+  left: var(--x-left);
+  translate: -50% 0;
+  display: block;
+  line-height: 0;
+}
+.career-stop[data-side="right"] .career-anchor {
+  left: var(--x-right);
+}
+.career-flag,
+.career-pin {
+  display: block;
+  fill: var(--ink);
+}
+.career-pin-hole {
+  fill: var(--paper);
+}
+.career-label {
+  position: absolute;
+  bottom: 2px;
+  right: calc(100% - var(--x-left) + var(--gap));
+  width: var(--label-w);
+  text-align: right;
+}
+.career-stop[data-side="right"] .career-label {
+  right: auto;
+  left: calc(var(--x-right) + var(--gap));
+  text-align: left;
+}
+.career-end {
+  height: 72px;
+}
+.career-end .career-anchor {
+  left: 50%;
+  bottom: 28px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--trail);
+}
+/* Reveal: markers and labels appear as the trail reaches them. Only once JS is running. */
+.career-map.is-live .career-anchor,
+.career-map.is-live .career-label {
+  opacity: 0;
+  transition: opacity 0.5s, translate 0.5s;
+}
+.career-map.is-live .career-label {
+  translate: 0 6px;
+}
+.career-map.is-live .is-reached .career-anchor {
+  opacity: 1;
+}
+.career-map.is-live .is-reached .career-label {
+  opacity: 1;
+  translate: 0 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .career-map.is-live .career-anchor,
+  .career-map.is-live .career-label {
+    opacity: 1;
+    translate: 0 0;
+    transition: none;
+  }
+  .career-map.is-live .career-label {
+    translate: 0 0;
+  }
+}
+/* Phones: the trail wiggles down the left edge and every label reads on the right. */
+@media (max-width: 639px) {
+  .career-map {
+    --row: 110px;
+    --x-left: 28px;
+    --x-right: 76px;
+  }
+  .career-label,
+  .career-stop[data-side="right"] .career-label {
+    left: 112px;
+    right: 0;
+    width: auto;
+    text-align: left;
+  }
+  .career-end .career-anchor {
+    left: 52px;
+  }
+}
+
 /* ---------- Kind words stack ---------- */
 
 .note-stack {
@@ -717,11 +860,13 @@ button,
     margin-left: 20px;
   }
   #companies,
+  #career,
   #kind-words,
   #contact {
     padding-top: 72px;
   }
   #companies h2,
+  #career h2,
   #kind-words h2,
   #contact h2 {
     margin-left: 0;

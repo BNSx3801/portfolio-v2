@@ -1,7 +1,7 @@
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { ProjectRail } from "@/components/ProjectRail";
-import { CompaniesGrid } from "@/components/CompaniesGrid";
+import { CareerMap } from "@/components/CareerMap";
 import { KindWords } from "@/components/KindWords";
 import { CoffeeSection } from "@/components/CoffeeSection";
 import { Footer } from "@/components/Footer";
@@ -15,7 +15,7 @@ export default function Home() {
         <Hero />
       </div>
       <ProjectRail />
-      <CompaniesGrid />
+      <CareerMap />
       <KindWords />
       <CoffeeSection />
       <Footer />

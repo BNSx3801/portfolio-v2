@@ -90,6 +90,23 @@ export const companies: Company[] = [
   { name: "Atrium", logo: "/logos/atrium.png" },
 ];
 
+export type CareerStop = {
+  role: string;
+  org: string;
+  dates: string;
+};
+
+// Ordered by start date. The career map draws these top to bottom; the first stop gets the pin.
+export const career: CareerStop[] = [
+  { role: "B.Tech (ECE)", org: "LNMIIT, Jaipur", dates: "Oct 2022 – Jun 2026" },
+  { role: "Developer Relations", org: "Reef Chain", dates: "Oct 2023 – Jan 2024" },
+  { role: "Head of Partnerships / Lead Organiser", org: "LNMHacks 7.0", dates: "Feb 2024 – Mar 2025" },
+  { role: "Growth Analyst", org: "Deon Labs", dates: "Apr 2024 – Dec 2024" },
+  { role: "Researcher", org: "PYOR Inc.", dates: "May 2024 · Contract" },
+  { role: "BD & Partnerships", org: "NodeOps", dates: "Feb 2026 – May 2026" },
+  { role: "Business Development", org: "Airtribe", dates: "May 2026 – Aug 2026" },
+];
+
 export type Note = {
   firstName: string;
   author: string;
