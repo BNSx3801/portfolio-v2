@@ -382,8 +382,7 @@ button,
   .card-media,
   .button-ink,
   .note,
-  .kind-note,
-  .logo {
+  .kind-note {
     transition: none;
   }
   .hello-in,
@@ -403,81 +402,6 @@ button,
   .card-slide {
     transition: none;
   }
-}
-
-/* ---------- Companies grid ---------- */
-
-.logo-grid {
-  --grid-line: color-mix(in srgb, var(--ink) 70%, transparent);
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px dashed var(--grid-line);
-  border-left: 1px dashed var(--grid-line);
-}
-.logo-cell {
-  position: relative;
-  aspect-ratio: 166 / 136;
-  border-right: 1px dashed var(--grid-line);
-  border-bottom: 1px dashed var(--grid-line);
-  display: grid;
-  place-items: center;
-}
-/* Dots at every intersection: each cell owns its bottom-right corner, the first row and
-   column add the top and left edges, and the grid itself covers the two remaining corners. */
-.logo-cell::before,
-.logo-cell::after,
-.logo-grid::before,
-.logo-grid::after {
-  content: "";
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--grid-line);
-  z-index: 1;
-}
-.logo-cell::after {
-  right: -4px;
-  bottom: -4px;
-}
-.logo-cell::before {
-  display: none;
-}
-.logo-cell:nth-child(-n + 4)::before {
-  display: block;
-  right: -4px;
-  top: -4px;
-}
-.logo-cell:nth-child(4n + 1):not(:first-child)::before {
-  display: block;
-  left: -4px;
-  top: -4px;
-}
-.logo-grid::before {
-  left: -4px;
-  top: -4px;
-}
-.logo-grid::after {
-  left: -4px;
-  bottom: -4px;
-}
-.logo {
-  display: block;
-  width: 58%;
-  aspect-ratio: 1;
-  background-color: color-mix(in srgb, var(--ink) 68%, transparent);
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  transition: background-color 0.3s;
-}
-.logo:hover,
-.logo:focus-visible {
-  background-color: var(--ink);
 }
 
 /* ---------- Career map ---------- */
@@ -1006,13 +930,11 @@ button.career-label:hover .career-role {
   .card + div {
     margin-left: 20px;
   }
-  #companies,
   #career,
   #kind-words,
   #contact {
     padding-top: 72px;
   }
-  #companies h2,
   #career h2,
   #kind-words h2,
   #contact h2 {
@@ -1083,26 +1005,5 @@ button.career-label:hover .career-role {
   }
   footer {
     padding-top: 56px;
-  }
-}
-
-/* Logo grid: two columns on phones, so the dots need the 2-column rules */
-@media (max-width: 639px) {
-  .logo-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .logo-cell:nth-child(-n + 4)::before,
-  .logo-cell:nth-child(4n + 1):not(:first-child)::before {
-    display: none;
-  }
-  .logo-cell:nth-child(-n + 2)::before {
-    display: block;
-    right: -4px;
-    top: -4px;
-  }
-  .logo-cell:nth-child(2n + 1):not(:first-child)::before {
-    display: block;
-    left: -4px;
-    top: -4px;
   }
 }

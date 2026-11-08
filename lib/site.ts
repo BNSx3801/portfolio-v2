@@ -77,19 +77,6 @@ export const bio = [
   "These days, I’m usually building something, exploring new technology or falling down an unexpected rabbit hole. When I’m not at my desk, you’ll probably find me out on my motorcycle, experimenting with my camera or discovering something new.",
 ];
 
-export type Company = { name: string; logo: string; href?: string };
-
-// Alpha-mask PNGs in /public/logos (generated from the supplied artwork); tinted with the ink token.
-export const companies: Company[] = [
-  { name: "Reef", logo: "/logos/reef.png" },
-  { name: "Funnel", logo: "/logos/funnel.png" },
-  { name: "Deon Labs", logo: "/logos/deon.png" },
-  { name: "NodeOps", logo: "/logos/nodeops.png" },
-  { name: "Airtribe", logo: "/logos/airtribe.png" },
-  { name: "DoraHacks", logo: "/logos/dorahacks.png" },
-  { name: "Atrium", logo: "/logos/atrium.png" },
-];
-
 export type CareerSection = { title: string; items: string[] };
 
 export type CareerStop = {
