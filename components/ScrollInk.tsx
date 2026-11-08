@@ -26,7 +26,8 @@ export function ScrollInk({ className, children }: { className?: string; childre
       const progress = Math.min(1, Math.max(0, window.scrollY / limit)) * (words.length + 4);
       words.forEach((w, i) => {
         const k = Math.min(1, Math.max(0, (progress - i) / 4));
-        w.style.opacity = (0.2 + 0.8 * k).toFixed(3);
+        // Floor of 0.6 keeps un-inked words above 4.5:1 contrast on both paper colours.
+        w.style.opacity = (0.6 + 0.4 * k).toFixed(3);
       });
     };
     const schedule = () => {

@@ -28,6 +28,8 @@ export type Project = {
   subtitle: string;
   // Optional, rendered after the subtitle as "subtitle · roles" in italic.
   roles?: string;
+  // Optional id so nav links can anchor to a specific card.
+  anchor?: string;
   href: string;
   // One entry renders a still; several crossfade as a slideshow. Empty renders the maroon placeholder.
   media?: ProjectMedia[];
@@ -56,6 +58,7 @@ export const projects: Project[] = [
   },
   {
     title: "Research & Writings",
+    anchor: "writings",
     subtitle: "Mixed-Method Research, Protocol/Architecture Analysis, Investment Memos.",
     href: "#",
     media: [{ type: "image", src: "/assets/Research-Card.png", alt: "Research and writing samples" }],

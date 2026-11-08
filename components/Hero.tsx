@@ -12,6 +12,7 @@ export function Hero() {
       id="about"
       className="mx-auto flex max-w-[739px] flex-col items-start px-5 pt-[120px] pb-16 xl:static xl:max-w-none xl:px-0 xl:pt-0 xl:pb-0"
     >
+      <h1 className="sr-only">Bal Narayan Singh, product ops and GTM generalist</h1>
       <div className="flex w-full items-end justify-between gap-4 xl:contents">
         <Image
           src="/assets/illustration.png"

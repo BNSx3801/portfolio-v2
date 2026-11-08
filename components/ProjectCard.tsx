@@ -5,8 +5,15 @@ import { CardSlideshow } from "./CardSlideshow";
 export function ProjectCard({ project, tabIndex }: { project: Project; tabIndex?: number }) {
   const media = project.media ?? [];
   return (
-    <article>
-      <a href={project.href} className="card" tabIndex={tabIndex} draggable={false}>
+    // Only the primary set carries ids and names; the marquee clone is aria-hidden.
+    <article id={tabIndex === undefined ? project.anchor : undefined}>
+      <a
+        href={project.href}
+        className="card"
+        tabIndex={tabIndex}
+        draggable={false}
+        aria-label={`${project.title}: ${project.subtitle}`}
+      >
         {media.length > 1 ? (
           <CardSlideshow media={media} />
         ) : media.length === 1 ? (

@@ -63,7 +63,7 @@ export function KindWords() {
               <p className="text-[12px] leading-[16px] text-ink-muted uppercase">A note from {note.firstName}</p>
               <p className="mt-[19px] max-w-[478px]">{note.quote}</p>
               <p className="kind-signature mt-[13px] ml-[6px] font-script text-[22px] leading-[28px]">{note.author}</p>
-              <p className="mt-[-7px] text-[10px] leading-[14px] text-ink-muted">{note.role}</p>
+              <p className="mt-[-7px] text-[12px] leading-[16px] text-ink-muted">{note.role}</p>
               <span className="kind-avatar">
                 <Image src={note.avatar} alt="" fill sizes="97px" className="object-cover" />
               </span>

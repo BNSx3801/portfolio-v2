@@ -229,7 +229,7 @@ export function CoffeeSection() {
             <p
               role="status"
               aria-live="polite"
-              className="absolute top-[192px] left-[160px] w-[204px] text-center text-[11px] leading-[14px] text-ink-muted"
+              className="absolute top-[192px] left-[160px] w-[204px] text-center text-[12px] leading-[16px] text-ink-muted"
             >
               {status === "sent" ? "Thanks, it's on its way to me." : status === "error" ? error : ""}
             </p>

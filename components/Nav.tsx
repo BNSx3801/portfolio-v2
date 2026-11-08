@@ -50,8 +50,8 @@ export function Nav() {
             >
               Book a Call
             </a>
-            <SoundToggle />
           </span>
+          <SoundToggle />
           <ThemeToggle />
           <span className="hidden xl:contents">
             <Clock />

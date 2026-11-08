@@ -12,6 +12,8 @@
   --note-shadow: 0 2px 41px rgb(0 0 0 / 0.2);
   --card-shadow: 0 18px 48px rgb(0 0 0 / 0.35), 0 4px 12px rgb(0 0 0 / 0.18);
   --signature-ink: rgb(26 0 255 / 0.35);
+  /* Kind Words author names are content, not decoration: dense enough for 4.5:1 on the note card. */
+  --kind-signature-ink: rgb(26 0 255 / 0.75);
   --ink-muted: color-mix(in srgb, var(--ink) 70%, transparent);
   --ink-faint: color-mix(in srgb, var(--ink) 50%, transparent);
   color-scheme: light;
@@ -27,6 +29,7 @@
   --note-shadow: 0 2px 41px rgb(0 0 0 / 0.6);
   --card-shadow: 0 18px 48px rgb(255 255 255 / 0.14), 0 4px 12px rgb(255 255 255 / 0.08);
   --signature-ink: rgb(150 140 255 / 0.6);
+  --kind-signature-ink: rgb(150 140 255 / 0.9);
   --pill-fg: #111111;
   color-scheme: dark;
 }
@@ -80,8 +83,15 @@ button,
 /* ---------- Nav links: underline grows left → right ---------- */
 
 .link-underline {
+  position: relative;
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
   transition: background-size 0.3s;
+}
+/* Invisible hit area so 14–20px-tall text links still offer a 24px pointer target. */
+.link-underline::after {
+  content: "";
+  position: absolute;
+  inset: -4px 0;
 }
 .link-underline:hover,
 .link-underline:focus-visible {
@@ -520,7 +530,7 @@ button,
   transition-timing-function: cubic-bezier(0.4, 0, 0.7, 0.2);
 }
 .kind-signature {
-  color: var(--signature-ink);
+  color: var(--kind-signature-ink);
 }
 .kind-avatar {
   position: absolute;
@@ -617,8 +627,11 @@ button,
   color: var(--ink);
   line-height: 18px;
 }
+.compose-field:focus-visible {
+  box-shadow: 0 2px 0 var(--ink);
+}
 .compose-field::placeholder {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
 }
 @keyframes bubble-in {
   0% {
@@ -671,15 +684,16 @@ button,
   }
   /* Signature, links and the theme icon must fit a 375px row with the header's own padding. */
   .sig-link .signature {
-    font-size: 22px;
-    line-height: 28px;
+    font-size: 20px;
+    line-height: 26px;
   }
   header nav {
-    gap: 12px;
-    font-size: 15px;
+    gap: 10px;
+    font-size: 13px;
   }
-  header > div {
-    gap: 12px;
+  header > div,
+  header > div > div {
+    gap: 10px;
   }
   .hello-word {
     font-size: 28px;

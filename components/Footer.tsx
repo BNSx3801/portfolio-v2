@@ -7,11 +7,11 @@ export function Footer() {
     <footer className="mx-auto w-full max-w-[696px] px-4 pt-[68px] pb-10">
       <dl className="ml-8 mr-[37px]">
         <div className={rowClass}>
-          <dt className="text-ink-faint">Name</dt>
+          <dt className="text-ink-muted">Name</dt>
           <dd>{contact.name}</dd>
         </div>
         <div className={rowClass}>
-          <dt className="text-ink-faint">Mail</dt>
+          <dt className="text-ink-muted">Mail</dt>
           <dd>
             <a href={`mailto:${contact.email}`} className="link-underline">
               {contact.email}
@@ -19,7 +19,7 @@ export function Footer() {
           </dd>
         </div>
         <div className={rowClass}>
-          <dt className="text-ink-faint">Call</dt>
+          <dt className="text-ink-muted">Call</dt>
           <dd>
             <a href={contact.callHref} target="_blank" rel="noreferrer" className="link-underline text-ink-muted">
               Schedule a 30-min call ↗
@@ -27,7 +27,7 @@ export function Footer() {
           </dd>
         </div>
         <div className={rowClass}>
-          <dt className="text-ink-faint">Socials</dt>
+          <dt className="text-ink-muted">Socials</dt>
           <dd className="flex flex-wrap justify-end gap-x-6 text-ink-muted">
             <a href={contact.linkedin} target="_blank" rel="noreferrer" className="link-underline">LinkedIn ↗</a>
             <a href={contact.x} target="_blank" rel="noreferrer" className="link-underline">X/Twitter ↗</a>
@@ -35,7 +35,7 @@ export function Footer() {
           </dd>
         </div>
       </dl>
-      <div className="ml-8 mr-[37px] flex items-center justify-between pt-[43px] text-[10px] leading-[14px]">
+      <div className="ml-8 mr-[37px] flex items-center justify-between pt-[43px] text-[12px] leading-[16px]">
         <p>Last updated on {contact.lastUpdated}</p>
         <a href="#top" className="link-underline">Back to top ↑</a>
       </div>
