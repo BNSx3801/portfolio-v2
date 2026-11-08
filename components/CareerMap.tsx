@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
-import { career } from "@/lib/site";
+import { useCallback, useEffect, useId, useRef, useState, type FocusEvent, type PointerEvent } from "react";
+import { career, type CareerStop } from "@/lib/site";
 
 type Pt = { x: number; y: number };
 
@@ -39,11 +39,43 @@ function marksAlong(path: SVGPathElement, length: number, pts: Pt[]) {
   });
 }
 
+const CLOSE_DELAY = 140;
+
 export function CareerMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const dashRef = useRef<SVGPathElement>(null);
   const revealRef = useRef<SVGPathElement>(null);
-  const maskId = useId();
+  const baseId = useId();
+  const [open, setOpen] = useState<number | null>(null);
+  const closeTimer = useRef(0);
+  // Focus opens a card before the click lands, so remember what was open when the press began.
+  const openAtPress = useRef<number | null>(null);
+
+  const show = useCallback((i: number) => {
+    window.clearTimeout(closeTimer.current);
+    setOpen(i);
+  }, []);
+  const hideSoon = useCallback(() => {
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setOpen(null), CLOSE_DELAY);
+  }, []);
+
+  // Pointer leaving the whole stop (label, marker or card) closes it; keyboard and taps toggle.
+  useEffect(() => {
+    if (open === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(null);
+    };
+    const onDown = (e: Event) => {
+      if (!(e.target as Element).closest(".career-stop.is-open")) setOpen(null);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onDown);
+    };
+  }, [open]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -63,7 +95,8 @@ export function CareerMap() {
       // Starts drawing when the map's top is 85% down the viewport, finishes when its bottom passes 60%.
       const p = reduce ? 1 : Math.min(1, Math.max(0, (0.85 * vh - rect.top) / (0.25 * vh + rect.height)));
       reveal.style.strokeDashoffset = `${length * (1 - p)}`;
-      stops.forEach((s, i) => s.classList.toggle("is-reached", p >= marks[i] - 0.005));
+      // Data attributes, not classes: React owns className and would wipe these on re-render.
+      stops.forEach((s, i) => s.toggleAttribute("data-reached", p >= marks[i] - 0.005));
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(paint);
@@ -87,7 +120,7 @@ export function CareerMap() {
     };
 
     layout();
-    map.classList.add("is-live");
+    map.setAttribute("data-live", "");
     const ro = new ResizeObserver(layout);
     ro.observe(map);
     window.addEventListener("scroll", schedule, { passive: true });
@@ -102,29 +135,88 @@ export function CareerMap() {
 
   return (
     <section id="career" className="mx-auto w-full max-w-[696px] px-4 pt-[128px]">
-      <h2 className="ml-[23px] font-[590]">Companies &amp; Products I&apos;ve worked w/:</h2>
+      <h2 className="ml-[23px] text-[20px] leading-[26px] font-[590] tracking-[-0.01em]">Career Journey</h2>
       <div ref={mapRef} className="career-map mt-[26px]">
         <svg className="career-trail" aria-hidden="true">
           <defs>
-            <mask id={maskId} maskUnits="userSpaceOnUse" x="-5%" y="-5%" width="110%" height="110%">
+            <mask id={`${baseId}m`} maskUnits="userSpaceOnUse" x="-5%" y="-5%" width="110%" height="110%">
               <path ref={revealRef} className="career-reveal" />
             </mask>
           </defs>
-          <path ref={dashRef} className="career-dash" mask={`url(#${maskId})`} />
+          <path ref={dashRef} className="career-dash" mask={`url(#${baseId}m)`} />
         </svg>
         <ol className="career-stops" aria-label="Career so far, earliest first">
-          {career.map((stop, i) => (
-            <li key={`${stop.org}-${stop.dates}`} className="career-stop" data-side={i % 2 ? "right" : "left"}>
-              <span className="career-anchor" aria-hidden="true">
-                {stop.marker === "pin" ? <PinIcon /> : stop.marker === "grad" ? <GradIcon /> : <FlagIcon />}
-              </span>
-              <div className="career-label">
-                <p className="font-[590]">{stop.role}</p>
-                <p className="text-ink-muted">{stop.org}</p>
-                <p className="text-[12px] leading-[16px] text-ink-muted tabular-nums">{stop.dates}</p>
-              </div>
-            </li>
-          ))}
+          {career.map((stop, i) => {
+            const cardId = stop.details ? `${baseId}c${i}` : undefined;
+            const isOpen = open === i;
+            const hover = stop.details
+              ? {
+                  onPointerEnter: (e: PointerEvent) => e.pointerType === "mouse" && show(i),
+                  onPointerLeave: (e: PointerEvent) => e.pointerType === "mouse" && hideSoon(),
+                }
+              : {};
+            return (
+              <li
+                key={`${stop.org}-${stop.dates}`}
+                className={`career-stop${isOpen ? " is-open" : ""}`}
+                data-side={i % 2 ? "right" : "left"}
+                data-flip={i < career.length / 2 ? "down" : "up"}
+                onBlur={(e: FocusEvent) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen((o) => (o === i ? null : o));
+                }}
+              >
+                <span className="career-anchor" aria-hidden="true" {...hover}>
+                  <Marker stop={stop} />
+                </span>
+                {stop.details ? (
+                  <button
+                    type="button"
+                    className="career-label"
+                    aria-expanded={isOpen}
+                    aria-controls={cardId}
+                    onPointerDown={() => (openAtPress.current = open)}
+                    onClick={() => (openAtPress.current === i ? setOpen(null) : show(i))}
+                    onFocus={() => show(i)}
+                    {...hover}
+                  >
+                    <Label stop={stop} />
+                  </button>
+                ) : (
+                  <div className="career-label">
+                    <Label stop={stop} />
+                  </div>
+                )}
+                {stop.details && (
+                  <div id={cardId} className="career-card" role="group" aria-label={`${stop.org}: details`} {...hover}>
+                    {stop.details.logo ? (
+                      <span
+                        className="career-logo"
+                        role="img"
+                        aria-label={stop.org}
+                        style={{ maskImage: `url(${stop.details.logo})`, WebkitMaskImage: `url(${stop.details.logo})` }}
+                      />
+                    ) : (
+                      <p className="career-wordmark">{stop.org}</p>
+                    )}
+                    {stop.details.sections.map((sec) => (
+                      <div key={sec.title} className="career-card-section">
+                        <p className="career-card-title">{sec.title}</p>
+                        {sec.items.length === 1 ? (
+                          <p>{sec.items[0]}</p>
+                        ) : (
+                          <ul>
+                            {sec.items.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </li>
+            );
+          })}
           <li className="career-stop career-end" data-anchor="center" aria-hidden="true">
             <span className="career-anchor career-dot" />
           </li>
@@ -132,6 +224,22 @@ export function CareerMap() {
       </div>
     </section>
   );
+}
+
+function Label({ stop }: { stop: CareerStop }) {
+  return (
+    <>
+      <span className="career-role">{stop.role}</span>
+      <span className="career-org">{stop.org}</span>
+      <span className="career-dates">{stop.dates}</span>
+    </>
+  );
+}
+
+function Marker({ stop }: { stop: CareerStop }) {
+  if (stop.marker === "pin") return <PinIcon />;
+  if (stop.marker === "grad") return <GradIcon />;
+  return <FlagIcon />;
 }
 
 // Pennant flag on a pedestal, after the supplied sample. The base's centre is the ground point.

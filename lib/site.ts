@@ -90,25 +90,146 @@ export const companies: Company[] = [
   { name: "Atrium", logo: "/logos/atrium.png" },
 ];
 
+export type CareerSection = { title: string; items: string[] };
+
 export type CareerStop = {
   role: string;
   org: string;
   dates: string;
   // pin marks where the road starts, grad the graduation; everything else gets a flag.
   marker?: "pin" | "grad";
+  // Hover card. Stops without one are plain markers.
+  details?: {
+    // Alpha-mask PNG in /public/logos, tinted with the ink token. Falls back to the org name.
+    logo?: string;
+    sections: CareerSection[];
+  };
 };
 
 // Ordered by date. The trail itself stands for the college years, bookended by the pin and the cap.
 export const career: CareerStop[] = [
   { role: "Started B.Tech (ECE)", org: "LNMIIT, Jaipur", dates: "Oct 2022", marker: "pin" },
-  { role: "Developer Relations", org: "Reef Chain", dates: "Oct 2023 – Jan 2024" },
-  { role: "Head of Partnerships / Lead Organiser", org: "LNMHacks 7.0", dates: "Feb 2024 – Mar 2025" },
-  { role: "Growth Analyst", org: "Deon Labs", dates: "Apr 2024 – Dec 2024" },
-  { role: "Researcher", org: "PYOR Inc.", dates: "May 2024 · Contract" },
-  { role: "BD & Partnerships", org: "NodeOps", dates: "Feb 2026 – May 2026" },
-  { role: "Business Development", org: "Airtribe", dates: "May 2026 – Aug 2026" },
+  {
+    role: "Developer Relations",
+    org: "Reef Chain",
+    dates: "Oct 2023 – Jan 2024",
+    details: {
+      logo: "/logos/reef.png",
+      sections: [
+        { title: "Mandate", items: ["Scale Reef Developers Club (a vetted pool of devs) across the APAC region."] },
+        {
+          title: "Actions",
+          items: [
+            "Closed partnerships with 14+ web3 communities across India & Singapore.",
+            "Designed & ran 3 campaigns to build a pipeline for contributors & devs.",
+            "Conducted dev interviews for campaign improvement and marketing initiatives.",
+          ],
+        },
+        {
+          title: "Impact",
+          items: [
+            "Scaled the vetted pool from 0 to 320+ w/ a team of 2.",
+            "Partnerships across India, Thailand and Singapore w/ Tier-1 institutions and dev communities.",
+            "72 builders attending the offline campaign closing events.",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    role: "Head of Partnerships / Lead Organiser",
+    org: "LNMHacks 7.0",
+    dates: "Feb 2024 – Mar 2025",
+    details: {
+      logo: "/logos/lnmhacks.png",
+      sections: [
+        { title: "Mandate", items: ["Closing monetary, in-kind & community partnerships."] },
+        {
+          title: "Actions",
+          items: [
+            "Led a team of 60 organisers across 5 teams.",
+            "Designed the sponsorship brochure, finalising the sponsorship tiers.",
+            "Handled expense planning & partner onboarding.",
+          ],
+        },
+        { title: "Impact", items: ["$7,000+ secured in sponsorship.", "5 monetary, 2 in-kind and 9 community collaborations closed."] },
+      ],
+    },
+  },
+  {
+    role: "Growth Analyst",
+    org: "Deon Labs",
+    dates: "Apr 2024 – Dec 2024",
+    details: {
+      logo: "/logos/deon.png",
+      sections: [
+        { title: "Mandate", items: ["Growth analytics partner for 3 L1 ecosystems."] },
+        {
+          title: "Actions",
+          items: [
+            "Building & deciding across a 21+ KPI dashboard.",
+            "15+ dev interviews for onboarding to grant programs.",
+            "Building attribution models for hackathons & grant programs.",
+          ],
+        },
+        { title: "Impact", items: ["Reduced dev & project acquisition cost by 21%.", "A qualified & smoother funnel for the grants program."] },
+      ],
+    },
+  },
+  {
+    role: "Researcher",
+    org: "PYOR Inc.",
+    dates: "May 2024 · Contract",
+    details: {
+      logo: "/logos/funnel.png",
+      sections: [
+        { title: "Mandate", items: ["Finalising an 11-part explainer series on EigenLayer."] },
+        { title: "Actions", items: ["Research across restaking and AVSs.", "Breaking down the shared security model & off-chain execution framework."] },
+        { title: "Impact", items: ["Authored w/ references to the physical world, making it easier to understand.", "Finished the 14-day contract within 4 days."] },
+      ],
+    },
+  },
+  { role: "Research Analyst", org: "Consulting / Freelance", dates: "Oct 2025 – Jan 2026 · Contract" },
+  {
+    role: "BD & Partnerships",
+    org: "NodeOps",
+    dates: "Feb 2026 – May 2026",
+    details: {
+      logo: "/logos/nodeops.png",
+      sections: [
+        { title: "Mandate", items: ["Own outbound, partnerships and account execution."] },
+        { title: "Actions", items: ["22+ automated outbound pipelines touching 35k+ touchpoints.", "Building a BD-focused, user-behaviour-customised notification pipeline."] },
+        { title: "Impact", items: ["Sourcing & closing a channel partnership.", "Executing across 21+ accounts & 4 channel partnerships across legal, product & ops."] },
+      ],
+    },
+  },
+  {
+    role: "Business Development",
+    org: "Airtribe",
+    dates: "May 2026 – Aug 2026",
+    details: {
+      logo: "/logos/airtribe.png",
+      sections: [
+        { title: "Mandate", items: ["Driving revenue through consultative sales."] },
+        { title: "Actions", items: ["MEDDIC for lead qualification.", "Handling pitch to onboarding, and hand-off to the program team.", "Feeding sales insight to the product team."] },
+        { title: "Impact", items: ["Revenue of INR 14L against a target of INR 4L.", "Closing 4 to 5 deals as a weekly average."] },
+      ],
+    },
+  },
   { role: "Graduated, B.Tech (ECE)", org: "LNMIIT, Jaipur", dates: "Jun 2026", marker: "grad" },
-  { role: "Co-Founder & CEO", org: "ExamSeries", dates: "Aug 2026 – Present" },
+  {
+    role: "Co-Founder & CEO",
+    org: "ExamSeries",
+    dates: "Aug 2026 – Present",
+    details: {
+      logo: "/logos/examseries.png",
+      sections: [
+        { title: "Problem Statement", items: ["Solving for fast-paced handwritten answer-script checking and mock test papers."] },
+        { title: "Actions", items: ["30+ user interviews.", "Benchmarking across 5 competitors on pricing & speed.", "Wireframing and prototyping.", "Sourcing faculty and signing MOUs."] },
+        { title: "Impact", items: ["An average turnaround time of 6–7 hours, against 3–7 days for competitors.", "3,000+ users since October 2nd."] },
+      ],
+    },
+  },
 ];
 
 export type Note = {
