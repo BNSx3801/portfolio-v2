@@ -105,6 +105,7 @@ export const career: CareerStop[] = [
   { role: "Researcher", org: "PYOR Inc.", dates: "May 2024 · Contract" },
   { role: "BD & Partnerships", org: "NodeOps", dates: "Feb 2026 – May 2026" },
   { role: "Business Development", org: "Airtribe", dates: "May 2026 – Aug 2026" },
+  { role: "Co-Founder & CEO", org: "ExamSeries", dates: "Aug 2026 – Present" },
 ];
 
 export type Note = {
