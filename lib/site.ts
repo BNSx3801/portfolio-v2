@@ -67,7 +67,8 @@ export const projects: Project[] = [
   {
     title: "Builds",
     subtitle: "FOSS, Arbitrage & Hedging Projects, etc.",
-    href: "#",
+    // Same page as the nav's Proof-of-Work > Builds.
+    href: "/proof-of-work/builds",
     media: [{ type: "image", src: "/assets/Build-Card.png", alt: "Open-source, arbitrage and hedging projects" }],
   },
 ];
