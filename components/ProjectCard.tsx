@@ -1,13 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Project } from "@/lib/site";
 import { CardSlideshow } from "./CardSlideshow";
 
 export function ProjectCard({ project, tabIndex }: { project: Project; tabIndex?: number }) {
   const media = project.media ?? [];
+  // Pages on this site route client-side; everything else is a plain link.
+  const Anchor = project.href.startsWith("/") ? Link : "a";
   return (
     // Only the primary set carries ids and names; the marquee clone is aria-hidden.
     <article id={tabIndex === undefined ? project.anchor : undefined}>
-      <a
+      <Anchor
         href={project.href}
         className="card"
         tabIndex={tabIndex}
@@ -30,7 +33,7 @@ export function ProjectCard({ project, tabIndex }: { project: Project; tabIndex?
         ) : (
           <div className="card-media" role="img" aria-label={`${project.title} preview`} />
         )}
-      </a>
+      </Anchor>
       <div className="mt-[9px] ml-[90px]">
         <p className="font-[590]">{project.title}</p>
         <p className="mt-0.5 text-ink-muted">

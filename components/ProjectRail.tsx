@@ -73,7 +73,6 @@ export function ProjectRail() {
       velocity = 0;
       lastX = e.clientX;
       lastT = e.timeStamp;
-      rail.setPointerCapture(e.pointerId);
     };
     const onPointerMove = (e: PointerEvent) => {
       if (!dragging) return;
@@ -83,6 +82,9 @@ export function ProjectRail() {
       if (!moved) {
         moved = true;
         rail.classList.add("is-dragging");
+        // Capture only once it is a drag: capturing on press would retarget the click to the
+        // rail and a plain click on a card would never reach its link.
+        rail.setPointerCapture(e.pointerId);
       }
       x -= dx;
       if (dtMs > 0) velocity = (-dx / dtMs) * 1000;
@@ -106,6 +108,15 @@ export function ProjectRail() {
         moved = false;
       }
     };
+    // Sideways trackpad swipes (and shift + wheel) scroll the rail; vertical ones are left to the page.
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      // Keeps the swipe from also nudging the page or triggering the browser's back gesture.
+      if (e.cancelable) e.preventDefault();
+      x += e.deltaX * (e.deltaMode === WheelEvent.DOM_DELTA_LINE ? 16 : 1);
+      velocity = 0;
+      resumeAt = e.timeStamp + RESUME_DELAY;
+    };
     const onEnter = () => (hovering = true);
     const onLeave = () => (hovering = false);
 
@@ -114,6 +125,7 @@ export function ProjectRail() {
     rail.addEventListener("pointerup", endDrag);
     rail.addEventListener("pointercancel", endDrag);
     rail.addEventListener("click", onClick, true);
+    rail.addEventListener("wheel", onWheel, { passive: false });
     rail.addEventListener("pointerenter", onEnter);
     rail.addEventListener("pointerleave", onLeave);
     return () => {
@@ -124,6 +136,7 @@ export function ProjectRail() {
       rail.removeEventListener("pointerup", endDrag);
       rail.removeEventListener("pointercancel", endDrag);
       rail.removeEventListener("click", onClick, true);
+      rail.removeEventListener("wheel", onWheel);
       rail.removeEventListener("pointerenter", onEnter);
       rail.removeEventListener("pointerleave", onLeave);
     };

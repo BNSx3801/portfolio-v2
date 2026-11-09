@@ -350,7 +350,7 @@ header {
 
 /* ---------- Project rail (marquee) ---------- */
 
-/* Position is driven from ProjectRail.tsx (auto-scroll + drag); CSS only handles presentation. */
+/* Position is driven from ProjectRail.tsx (auto-scroll, drag, wheel); CSS only handles presentation. */
 .rail {
   /* Clip only sideways so the card shadow can bleed above and below the rail. */
   overflow-x: clip;

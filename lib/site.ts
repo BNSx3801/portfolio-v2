@@ -60,7 +60,8 @@ export const projects: Project[] = [
     title: "Research & Writings",
     anchor: "writings",
     subtitle: "Mixed-Method Research, Protocol/Architecture Analysis, Investment Memos.",
-    href: "#",
+    // Same page as the nav's Proof-of-Work > Research & Writings.
+    href: "/proof-of-work/research-writings",
     media: [{ type: "image", src: "/assets/Research-Card.png", alt: "Research and writing samples" }],
   },
   {
