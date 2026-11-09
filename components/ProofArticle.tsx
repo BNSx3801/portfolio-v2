@@ -134,7 +134,23 @@ export function ProofArticlePage({ section, slug }: { section: string; slug: str
   const item = proofArticle(section, slug);
   if (!item?.article) notFound();
   const cover = item.article.hero ?? item.media;
-  const { parts } = item.article;
+  const { parts, embed } = item.article;
+
+  if (embed) {
+    return (
+      <Shell section={section} title={item.title} subtitle={item.subtitle} cover={false}>
+        <div className="figma-embed mt-[40px]">
+          <iframe src={embed} title={`${item.title}: Figma file`} allowFullScreen />
+        </div>
+        <p className="mt-4 text-[13px] leading-[18px] text-ink-muted">
+          Drag to pan, scroll or pinch to zoom.{" "}
+          <a href={embed.replace("embed.figma.com", "www.figma.com").replace(/&embed-host=[^&]*/, "")} target="_blank" rel="noreferrer" className="link-underline">
+            Open in Figma ↗
+          </a>
+        </p>
+      </Shell>
+    );
+  }
 
   if (parts) {
     return (

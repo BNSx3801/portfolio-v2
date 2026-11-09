@@ -11,6 +11,7 @@ function Tile({ item, href }: { item: ProofItem; href?: string }) {
       fill
       sizes="(max-width: 507px) 100vw, 475px"
       className="object-cover"
+      style={item.media.position ? { objectPosition: item.media.position } : undefined}
     />
   );
   return href ? (
@@ -30,16 +31,20 @@ export function ProofOfWorkPage({ slug }: { slug: string }) {
       <Nav current={slug} />
       {/* 707px column, centred: the note sits in the middle and the tiles swing between its edges. */}
       <section className="mx-auto w-full max-w-[739px] px-4 pt-[76px] sm:pt-[100px]">
-        <div className="pow-note">
-          <Image src="/assets/pow-paper.png" alt="" fill priority sizes="(max-width: 689px) 100vw, 657px" className="note-paper object-cover" />
-          <div className="pow-note-text">
-            <h1>{section.heading}</h1>
-            <h2>{section.note.title}</h2>
-            {section.note.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-            ))}
+        {section.note ? (
+          <div className="pow-note">
+            <Image src="/assets/pow-paper.png" alt="" fill priority sizes="(max-width: 689px) 100vw, 657px" className="note-paper object-cover" />
+            <div className="pow-note-text">
+              <h1>{section.heading}</h1>
+              <h2>{section.note.title}</h2>
+              {section.note.paragraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <h1 className="pow-heading">{section.heading}</h1>
+        )}
 
         <ol className="mt-16 flex flex-col gap-16 sm:mt-[109px] sm:gap-[104px]">
           {section.items.map((item, i) => (

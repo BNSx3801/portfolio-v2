@@ -21,7 +21,13 @@ export const photos: Photo[] = [
   { src: "/photos/bns-waterfall.jpg", alt: "Bal Narayan Singh on a staircase in front of a waterfall, helmet in hand" },
 ];
 
-export type ProjectMedia = { type: "image" | "video"; src: string; alt?: string };
+export type ProjectMedia = {
+  type: "image" | "video";
+  src: string;
+  alt?: string;
+  // Optional object-position for frames that crop the image, e.g. "50% 0%" to keep the top.
+  position?: string;
+};
 
 export type Project = {
   title: string;
@@ -93,6 +99,8 @@ export type ProofItem = {
     slug: string;
     // 16:9 cover under the title; falls back to the card's media.
     hero?: ProjectMedia;
+    // Figma embed URL (the src of Figma's embed code). The page shows the file instead of copy.
+    embed?: string;
     // A series: the page becomes a map of its parts, each read at
     // /proof-of-work/<section>/<slug>/<part> from content/<section>/<slug>/<part>.md.
     parts?: SeriesPart[];
@@ -105,7 +113,8 @@ export type ProofSection = {
   label: string;
   // Slanted line above the pinned note.
   heading: string;
-  note: { title: string; paragraphs: string[] };
+  // Optional pinned sheet under the heading; without one the heading stands alone.
+  note?: { title: string; paragraphs: string[] };
   items: ProofItem[];
 };
 
@@ -188,7 +197,29 @@ export const proofOfWork: ProofSection[] = [
       },
     ],
   },
-  { slug: "wireframes", label: "Wireframes", heading: "Wireframes.", note: pseudoNote, items: pseudoItems },
+  {
+    slug: "wireframes",
+    label: "Wireframes",
+    heading: "Wireframes.",
+    items: [
+      {
+        title: "ExamSeries",
+        subtitle: "Brief · Brand Identity Kit · Screens",
+        // Taller than 16:9: anchor to the top so the ExamSeries wordmark stays in.
+        media: {
+          type: "image",
+          src: "/assets/ES-Regen-04.png",
+          alt: "ExamSeries wireframe boards: brief, goals, proto-personas, scope, sitemap, user flows and research inputs",
+          position: "50% 0%",
+        },
+        article: {
+          slug: "examseries",
+          embed: "https://embed.figma.com/design/7eV7mJjaNCVn3I2OaRS6xB/ExamSeries-Wireframes-v2?node-id=0-1&embed-host=share",
+        },
+      },
+      ...pseudoItems.slice(1),
+    ],
+  },
   { slug: "builds", label: "Builds", heading: "Builds.", note: pseudoNote, items: pseudoItems },
   { slug: "docs", label: "Docs", heading: "Docs.", note: pseudoNote, items: pseudoItems },
   {
