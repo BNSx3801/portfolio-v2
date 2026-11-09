@@ -31,49 +31,58 @@ export function CoffeeSection() {
     tune.play().catch(() => {});
   };
 
-  // Play the thread once the section scrolls into view.
+  // Play the thread while the section is on screen. Scrolling away pauses it, tune included, and
+  // coming back picks up at the message that was due.
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const tune = new Audio(TUNE_SRC);
     tune.preload = "auto";
     tuneRef.current = tune;
-    let timers: number[] = [];
-    const play = () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        setShown(LINES);
+    let timer = 0;
+    let landed = 0; // bubbles on screen so far
+    let running = false;
+
+    // One beat: typing dots, the bubble lands with its tune, then a pause before the next.
+    const next = () => {
+      if (landed === LINES) {
         setComposeVisible(true);
+        io.disconnect();
         return;
       }
-      let t = 0;
-      for (let i = 0; i < LINES; i++) {
-        timers.push(window.setTimeout(() => setTyping(true), t));
-        t += TYPING_MS;
-        timers.push(
-          window.setTimeout(() => {
-            setTyping(false);
-            setShown(i + 1);
-            ping();
-          }, t),
-        );
-        t += GAP_MS;
-      }
-      timers.push(window.setTimeout(() => setComposeVisible(true), t));
+      setTyping(true);
+      timer = window.setTimeout(() => {
+        setTyping(false);
+        setShown(++landed);
+        ping();
+        timer = window.setTimeout(next, GAP_MS);
+      }, TYPING_MS);
     };
+    // Starts at 35% in view and only pauses below 20%, so a small scroll doesn't stutter it.
     const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          io.disconnect();
-          play();
+      ([entry]) => {
+        if (entry.intersectionRatio >= 0.349) {
+          if (running) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setShown(LINES);
+            setComposeVisible(true);
+            io.disconnect();
+            return;
+          }
+          running = true;
+          next();
+        } else if (entry.intersectionRatio < 0.2 && running) {
+          running = false;
+          window.clearTimeout(timer);
+          tune.pause();
         }
       },
-      { threshold: 0.35 },
+      { threshold: [0.2, 0.35] },
     );
     io.observe(el);
     return () => {
       io.disconnect();
-      timers.forEach(clearTimeout);
-      timers = [];
+      window.clearTimeout(timer);
       tune.pause();
       tuneRef.current = null;
     };
