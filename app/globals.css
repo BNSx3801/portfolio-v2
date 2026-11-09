@@ -536,14 +536,14 @@ header {
   outline: 2px solid var(--ink);
   outline-offset: 6px;
 }
-button.career-label .career-role {
+:is(button, a).career-label .career-role {
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
   text-underline-offset: 3px;
   transition: text-decoration-color 0.2s;
 }
 .career-stop.is-open button.career-label .career-role,
-button.career-label:hover .career-role {
+:is(button, a).career-label:hover .career-role {
   text-decoration-color: var(--ink);
 }
 /* Role / org / dates step down in size and tone so the heading above stays on top. */
@@ -670,6 +670,29 @@ button.career-label:hover .career-role {
   border-radius: 999px;
   background: var(--trail);
 }
+/* Case-study series: taller rows and larger titles, since each stop is a whole article. */
+.series-map {
+  --row: 136px;
+}
+.series-map .career-stop:first-child {
+  height: 120px;
+}
+.series-map .career-role {
+  margin-block: 2px;
+  font-size: 15px;
+  line-height: 20px;
+}
+.series-map .career-label:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 6px;
+}
+/* Doubled class so it outlasts the phone rule for .career-map further down. */
+@media (max-width: 639px) {
+  .career-map.series-map {
+    --row: 128px;
+  }
+}
+
 /* Reveal: markers and labels appear as the trail reaches them. Only once JS is running. */
 .career-map[data-live] .career-anchor,
 .career-map[data-live] .career-label {

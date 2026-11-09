@@ -73,6 +73,13 @@ export const projects: Project[] = [
   },
 ];
 
+export type SeriesPart = {
+  slug: string;
+  title: string;
+  subtitle?: string;
+  date: string;
+};
+
 export type ProofItem = {
   title: string;
   subtitle: string;
@@ -86,6 +93,9 @@ export type ProofItem = {
     slug: string;
     // 16:9 cover under the title; falls back to the card's media.
     hero?: ProjectMedia;
+    // A series: the page becomes a map of its parts, each read at
+    // /proof-of-work/<section>/<slug>/<part> from content/<section>/<slug>/<part>.md.
+    parts?: SeriesPart[];
   };
 };
 
@@ -134,7 +144,48 @@ export const proofOfWork: ProofSection[] = [
         media: { type: "image", src: "/assets/Sui-casestudy.png", alt: "Sui Network: Meta's failed blockchain project" },
         article: { slug: "sui-network" },
       },
-      ...pseudoItems.slice(2),
+      {
+        title: "Hidden Costs of Crypto Exchanges",
+        subtitle: "Architectural Breakdown · Arbitrage Opportunities · Implicit & Explicit Costs",
+        media: {
+          type: "image",
+          src: "/assets/HiddenCosts-casestudy.png",
+          alt: "A trader deep in thought before price charts tagged impermanent loss, low liquidity, MEV and liquidity fragmentation",
+        },
+        article: {
+          slug: "hidden-costs-of-crypto-exchanges",
+          parts: [
+            {
+              slug: "is-defi-eating-wall-street",
+              title: "Is DeFi Really Eating Up Wall Street?",
+              subtitle: "The Rise of DeFi & DEX Space",
+              date: "1 Jun 2025",
+            },
+            {
+              slug: "cexs-walked-so-dexs-could-run",
+              title: "CEXs Walked So DEXs Could Run! But, are they capable of running?",
+              date: "30 Jun 2025",
+            },
+            {
+              slug: "cracking-open-the-amm-black-box",
+              title: "Cracking Open the AMM Black Box",
+              subtitle: "Key Players, Mechanism, Rewards & Risks!",
+              date: "3 Jul 2025",
+            },
+            {
+              slug: "uniswap-101",
+              title: "Uniswap 101: Providing Liquidity, Earning Fees, and Facing The Risks!",
+              subtitle: "A guided tour through pool, profits, and pitfalls for the modern DeFi user!",
+              date: "15 Jul 2025",
+            },
+            {
+              slug: "the-cost-of-decentralization",
+              title: "The Cost of Decentralization: Design Trade-offs in the DEX World",
+              date: "26 Jul 2025",
+            },
+          ],
+        },
+      },
     ],
   },
   { slug: "wireframes", label: "Wireframes", heading: "Wireframes.", note: pseudoNote, items: pseudoItems },
@@ -169,6 +220,13 @@ export function proofArticleParams(section: string) {
 
 export function proofArticle(section: string, slug: string) {
   return proofSection(section).items.find((item) => item.article?.slug === slug);
+}
+
+// Params for a section's [slug]/[part] route: every part of every series in the section.
+export function proofSeriesParams(section: string) {
+  return proofSection(section).items.flatMap((item) =>
+    (item.article?.parts ?? []).map((part) => ({ slug: item.article!.slug, part: part.slug })),
+  );
 }
 
 // Tab title for a section page.
