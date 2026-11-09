@@ -66,8 +66,8 @@ export const projects: Project[] = [
     title: "Research & Writings",
     anchor: "writings",
     subtitle: "Mixed-Method Research, Protocol/Architecture Analysis, Investment Memos.",
-    // Same page as the nav's Proof-of-Work > Research & Writings.
-    href: "/proof-of-work/research-writings",
+    // Research reports live with the case studies now.
+    href: "/proof-of-work/case-studies",
     media: [{ type: "image", src: "/assets/Research-Card.png", alt: "Research and writing samples" }],
   },
   {
@@ -130,7 +130,7 @@ const pseudoNote = { title: "What to expect?", paragraphs: ["Notes for this sect
 export const proofOfWork: ProofSection[] = [
   {
     slug: "case-studies",
-    label: "Case-Studies",
+    label: "Case-Studies/Research-Reports",
     heading: "Case Studies / Research Reports / Build Thesis.",
     note: {
       title: "What to expect?",
@@ -217,18 +217,10 @@ export const proofOfWork: ProofSection[] = [
           embed: "https://embed.figma.com/design/7eV7mJjaNCVn3I2OaRS6xB/ExamSeries-Wireframes-v2?node-id=0-1&embed-host=share",
         },
       },
-      ...pseudoItems.slice(1),
     ],
   },
   { slug: "builds", label: "Builds", heading: "Builds.", note: pseudoNote, items: pseudoItems },
   { slug: "docs", label: "Docs", heading: "Docs.", note: pseudoNote, items: pseudoItems },
-  {
-    slug: "research-writings",
-    label: "Research & Writings",
-    heading: "Research & Writings.",
-    note: pseudoNote,
-    items: pseudoItems,
-  },
 ];
 
 export function proofSection(slug: string): ProofSection {
