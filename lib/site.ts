@@ -71,6 +71,71 @@ export const projects: Project[] = [
   },
 ];
 
+export type ProofItem = {
+  title: string;
+  subtitle: string;
+  // Optional: without one the card is a plain tile.
+  href?: string;
+  // Optional: without one the card renders as the frosted placeholder.
+  media?: ProjectMedia;
+};
+
+export type ProofSection = {
+  slug: string;
+  // Label in the nav dropdown.
+  label: string;
+  // Slanted line above the pinned note.
+  heading: string;
+  note: { title: string; paragraphs: string[] };
+  items: ProofItem[];
+};
+
+// Placeholders until the real entries land.
+const pseudoItems: ProofItem[] = [
+  { title: "ExamSeries", subtitle: "Pseudo Line" },
+  { title: "ExamSeries", subtitle: "Pseudo Line" },
+  { title: "ExamSeries", subtitle: "Pseudo Line" },
+];
+const pseudoNote = { title: "What to expect?", paragraphs: ["Notes for this section are still being written."] };
+
+// Listed in the nav dropdown in this order. Each entry needs its own app/proof-of-work/<slug>/page.tsx.
+export const proofOfWork: ProofSection[] = [
+  {
+    slug: "case-studies",
+    label: "Case-Studies",
+    heading: "Case Studies / Research Reports / Build Thesis.",
+    note: {
+      title: "What to expect?",
+      paragraphs: [
+        "Depending on the genre of product/service, the structure of the case study might change.",
+        "The general structure consists of breaking down the problem statement, quantitative research, qualitative/ux research, addressing the gaps, and closing remarks.",
+      ],
+    },
+    items: pseudoItems,
+  },
+  { slug: "wireframes", label: "Wireframes", heading: "Wireframes.", note: pseudoNote, items: pseudoItems },
+  { slug: "builds", label: "Builds", heading: "Builds.", note: pseudoNote, items: pseudoItems },
+  { slug: "docs", label: "Docs", heading: "Docs.", note: pseudoNote, items: pseudoItems },
+  {
+    slug: "research-writings",
+    label: "Research & Writings",
+    heading: "Research & Writings.",
+    note: pseudoNote,
+    items: pseudoItems,
+  },
+];
+
+export function proofSection(slug: string): ProofSection {
+  const section = proofOfWork.find((s) => s.slug === slug);
+  if (!section) throw new Error(`Unknown Proof-of-Work section: ${slug}`);
+  return section;
+}
+
+// Tab title for a section page.
+export function proofTitle(slug: string) {
+  return `${proofSection(slug).label} · Bal Narayan Singh (BNS)`;
+}
+
 export const bio = [
   'I’m BNS, and while I like to call myself a "true generalist", my expertise leans towards Product Ops and GTM (more of a PMM actually). I enjoy connecting the dots b/w product, tech & business, and turning ideas into things people actually use. Currently building ExamSeries. Listing some of my fav work below.',
   "Over the past few years, I’ve worked across Developer Relations, Product and Business Development, navigating the Web3 and AI ecosystems. From building communities and forging partnerships to researching markets and shaping product experiences.",

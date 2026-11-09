@@ -11,6 +11,7 @@
   --note-card: #ffffff;
   --note-shadow: 0 2px 41px rgb(0 0 0 / 0.2);
   --card-shadow: 0 18px 48px rgb(0 0 0 / 0.35), 0 4px 12px rgb(0 0 0 / 0.18);
+  --tile-shadow: 0 2px 59px rgb(0 0 0 / 0.2);
   --signature-ink: rgb(26 0 255 / 0.35);
   /* Kind Words author names are content, not decoration: dense enough for 4.5:1 on the note card. */
   --kind-signature-ink: rgb(26 0 255 / 0.75);
@@ -28,6 +29,7 @@
   --note-card: #1c1c1c;
   --note-shadow: 0 2px 41px rgb(0 0 0 / 0.6);
   --card-shadow: 0 18px 48px rgb(255 255 255 / 0.14), 0 4px 12px rgb(255 255 255 / 0.08);
+  --tile-shadow: 0 2px 59px rgb(255 255 255 / 0.16);
   --signature-ink: rgb(150 140 255 / 0.6);
   --kind-signature-ink: rgb(150 140 255 / 0.9);
   --pill-fg: #111111;
@@ -94,8 +96,40 @@ button,
   inset: -4px 0;
 }
 .link-underline:hover,
-.link-underline:focus-visible {
+.link-underline:focus-visible,
+.link-underline[aria-expanded="true"],
+.link-underline[aria-current="page"] {
   background-size: 100% 1px;
+}
+
+/* ---------- Proof-of-Work dropdown ---------- */
+
+/* A second bar hanging under the nav: same height, same surface. */
+header {
+  --nav-h: 64px;
+}
+/* Stretch the trigger's hit area down to the bar so the pointer can travel between them. */
+.pow-trigger::after {
+  bottom: calc((1lh - var(--nav-h)) / 2);
+}
+.pow-menu {
+  position: fixed;
+  inset-inline: 0;
+  top: var(--nav-h);
+  height: var(--nav-h);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -4px;
+  transition: opacity 0.18s, translate 0.18s, visibility 0s 0.18s;
+}
+.pow-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition-delay: 0s;
+}
+.pow-menu ul {
+  scrollbar-width: none;
 }
 
 .sig-link {
@@ -376,6 +410,7 @@ button,
 
 @media (prefers-reduced-motion: reduce) {
   .link-underline,
+  .pow-menu,
   .sig-link::after,
   .photo-print,
   .photo-print img,
@@ -694,6 +729,96 @@ button.career-label:hover .career-role {
   }
 }
 
+/* ---------- Proof-of-Work pages ---------- */
+
+/* The pinned sheet is drawn at 657x580; everything on it is sized in --u (one design pixel) so
+   the writing keeps its place against the ruled lines as the sheet shrinks. */
+.pow-note {
+  container-type: inline-size;
+  position: relative;
+  width: min(657px, 100%);
+  aspect-ratio: 657 / 580;
+  margin-inline: auto;
+}
+.pow-note-text {
+  --u: calc(100cqw / 657);
+  position: absolute;
+  top: calc(121 * var(--u));
+  left: calc(70 * var(--u));
+  width: calc(571 * var(--u));
+  rotate: -1deg;
+  transform-origin: 0 0;
+  font-family: var(--font-signature), cursive;
+  font-weight: 700;
+  font-size: calc(27 * var(--u));
+  line-height: calc(38 * var(--u));
+}
+/* Page title: printed rather than handwritten, centred on the sheet's first line. */
+.pow-note-text h1 {
+  width: fit-content;
+  margin-inline: auto;
+  translate: calc(-21 * var(--u)) 0;
+  font-family: var(--font-sans);
+  font-size: calc(22 * var(--u));
+  line-height: calc(28 * var(--u));
+  font-weight: 590;
+  font-style: italic;
+  text-align: center;
+  text-wrap: balance;
+  text-decoration: underline 1px;
+  text-underline-offset: calc(8 * var(--u));
+}
+.pow-note-text h2 {
+  margin-top: calc(10 * var(--u));
+  margin-left: calc(2 * var(--u));
+  font-size: calc(42 * var(--u));
+  line-height: calc(52 * var(--u));
+}
+.pow-note-text p {
+  margin-top: calc(7 * var(--u));
+}
+/* The first paragraph tucks under the title and starts mid-line, like a letter. */
+.pow-note-text h2 + p {
+  margin-top: calc(-4 * var(--u));
+  line-height: calc(35 * var(--u));
+  text-indent: calc(74 * var(--u));
+}
+/* Phones: the sheet is about half size, so the writing is set larger against it to stay legible.
+   Every line takes exactly one rule, and a long title wraps onto a second. */
+@media (max-width: 639px) {
+  .pow-note-text {
+    font-size: calc(33 * var(--u));
+    line-height: calc(35 * var(--u));
+  }
+  .pow-note-text h1 {
+    font-size: calc(29 * var(--u));
+    line-height: calc(35 * var(--u));
+  }
+  .pow-note-text h2 + p {
+    text-indent: calc(90 * var(--u));
+  }
+}
+/* Tiles zigzag down the column. */
+.pow-item {
+  width: min(475px, 100%);
+}
+.pow-item:nth-child(even) {
+  margin-left: auto;
+}
+.pow-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 475 / 256;
+  border-radius: 16px;
+  overflow: clip;
+  background-image: linear-gradient(
+    122.74deg,
+    color-mix(in srgb, var(--paper) 60%, transparent),
+    color-mix(in srgb, var(--paper) 10%, transparent)
+  );
+  box-shadow: var(--tile-shadow);
+}
+
 /* ---------- Kind words stack ---------- */
 
 .note-stack {
@@ -901,13 +1026,21 @@ button.career-label:hover .career-role {
     font-size: 20px;
     line-height: 26px;
   }
+  /* The smaller signature makes the bar 50px tall; the dropdown follows. */
+  header {
+    --nav-h: 50px;
+  }
   header nav {
-    gap: 10px;
+    gap: 8px;
     font-size: 13px;
   }
   header > div,
   header > div > div {
-    gap: 10px;
+    gap: 8px;
+  }
+  header > div,
+  .pow-menu ul {
+    padding-inline: 16px;
   }
   .hello-word {
     font-size: 28px;

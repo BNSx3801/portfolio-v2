@@ -1,20 +1,30 @@
 import Link from "next/link";
 import { contact } from "@/lib/site";
 import { Clock } from "./Clock";
+import { ProofOfWorkMenu } from "./ProofOfWorkMenu";
 import { SoundToggle } from "./SoundToggle";
 import { ThemeToggle } from "./ThemeToggle";
 
-const links = [
-  { label: "Work", href: "#work" },
-  { label: "Writings", href: "#writings" },
-  { label: "About", href: "#about" },
-];
+// `current` marks the open Proof-of-Work section; the home page leaves it out.
+export function Nav({ current }: { current?: string }) {
+  // On the home page these stay plain anchors so the jump scrolls smoothly; elsewhere they route back.
+  const home = current === undefined;
+  const homeLink = (id: string, label: string) =>
+    home ? (
+      <a href={`#${id}`} className="link-underline">
+        {label}
+      </a>
+    ) : (
+      <Link href={`/#${id}`} className="link-underline">
+        {label}
+      </Link>
+    );
 
-export function Nav() {
   return (
     // Pinned to the viewport. The inner frame mirrors the hero's 1440px frame so the xl
-    // absolute coordinates still line up with the design.
-    <header className="fixed inset-x-0 top-0 z-50 bg-paper/85 backdrop-blur-md">
+    // absolute coordinates still line up with the design. The surface is a pseudo-element: a
+    // backdrop-filter on the header itself would stop the dropdown's own blur reaching the page.
+    <header className="fixed inset-x-0 top-0 z-50 before:absolute before:inset-0 before:-z-10 before:bg-paper/85 before:backdrop-blur-md">
       <div className="relative mx-auto flex max-w-[1440px] items-center justify-between gap-4 py-3 pr-7 pl-5 xl:block xl:h-[64px] xl:px-0 xl:py-0">
         <Link
           href="/"
@@ -33,11 +43,9 @@ export function Nav() {
           aria-label="Primary"
           className="flex gap-4 xl:absolute xl:top-[22px] xl:left-[212px] xl:gap-[40px]"
         >
-          {links.map((l) => (
-            <a key={l.label} href={l.href} className="link-underline">
-              {l.label}
-            </a>
-          ))}
+          {homeLink("work", "Work")}
+          <ProofOfWorkMenu current={current} />
+          {homeLink("about", "About")}
         </nav>
 
         <div className="flex items-center gap-x-6 xl:absolute xl:top-[22px] xl:right-10">
