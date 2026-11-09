@@ -73,8 +73,6 @@ export const projects: Project[] = [
   },
 ];
 
-export type ArticleSection = { heading: string; paragraphs: string[] };
-
 export type ProofItem = {
   title: string;
   subtitle: string;
@@ -82,12 +80,12 @@ export type ProofItem = {
   href?: string;
   // Optional: without one the card renders as the frosted placeholder.
   media?: ProjectMedia;
-  // Optional: gives the item its own page at /proof-of-work/<section>/<slug>.
+  // Optional: gives the item its own page at /proof-of-work/<section>/<slug>, with its copy in
+  // content/<section>/<slug>.md. Each top-level "#" heading becomes an entry in the contents list.
   article?: {
     slug: string;
-    // Wide image under the title; falls back to the card's media.
+    // 16:9 cover under the title; falls back to the card's media.
     hero?: ProjectMedia;
-    sections: ArticleSection[];
   };
 };
 
@@ -127,19 +125,16 @@ export const proofOfWork: ProofSection[] = [
         title: "ExamSeries",
         subtitle: "User Research/Interviews · Market Research · Strategy & Implementation.",
         media: { type: "image", src: "/assets/ExamSeries-casestudy.png", alt: "ExamSeries case study cover" },
-        article: {
-          slug: "examseries",
-          // Placeholder copy until the write-up lands; headings follow the structure in the note above.
-          sections: [
-            { heading: "Problem Statement", paragraphs: ["Still being written."] },
-            { heading: "Quantitative Research", paragraphs: ["Still being written."] },
-            { heading: "Qualitative / UX Research", paragraphs: ["Still being written."] },
-            { heading: "Addressing the Gaps", paragraphs: ["Still being written."] },
-            { heading: "Closing Remarks", paragraphs: ["Still being written."] },
-          ],
-        },
+        // Placeholder copy until the write-up lands; headings follow the structure in the note above.
+        article: { slug: "examseries" },
       },
-      ...pseudoItems.slice(1),
+      {
+        title: "Sui Network - Meta's failed project",
+        subtitle: "Mixed-method Research · Architectural Breakdown · Tokenomics & Ecosystem.",
+        media: { type: "image", src: "/assets/Sui-casestudy.png", alt: "Sui Network: Meta's failed blockchain project" },
+        article: { slug: "sui-network" },
+      },
+      ...pseudoItems.slice(2),
     ],
   },
   { slug: "wireframes", label: "Wireframes", heading: "Wireframes.", note: pseudoNote, items: pseudoItems },

@@ -1,7 +1,11 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
+import Markdown from "react-markdown";
 import { proofArticle } from "@/lib/site";
-import { ArticleContents } from "./ArticleContents";
+import { ArticleContents, type ContentsSection } from "./ArticleContents";
 import { Footer } from "./Footer";
 import { Nav } from "./Nav";
 
@@ -10,20 +14,34 @@ function anchor(heading: string) {
   return heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
+function textOf(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(textOf).join("");
+  return "";
+}
+
 // One case study or write-up; app/proof-of-work/<section>/[slug] renders this.
 export function ProofArticlePage({ section, slug }: { section: string; slug: string }) {
   const item = proofArticle(section, slug);
   if (!item?.article) notFound();
   const hero = item.article.hero ?? item.media;
-  const sections = item.article.sections.map((s) => ({ ...s, id: anchor(s.heading) }));
+  const body = readFileSync(path.join(process.cwd(), "content", section, `${slug}.md`), "utf8");
+  // "#" headings are the sections of the contents list and "##" their sub-sections; deeper ones stay out.
+  const sections: ContentsSection[] = [];
+  for (const [, level, heading] of body.matchAll(/^(#{1,2}) (.+)$/gm)) {
+    const entry = { id: anchor(heading), heading };
+    if (level === "#") sections.push({ ...entry, children: [] });
+    else sections.at(-1)?.children.push(entry);
+  }
 
   return (
     <main id="top">
       <Nav current={section} />
       {/* 1440 frame: the contents list sits at the design's x=99, level with the cover; the article is a centred 683px column. */}
       <div className="relative mx-auto w-full max-w-[1440px]">
-        <aside className="absolute top-[239px] bottom-0 left-[99px] hidden xl:block">
-          <ArticleContents sections={sections.map(({ id, heading }) => ({ id, heading }))} />
+        {/* Wide enough to reach the article's left edge less a gap: 248px at 1440, narrower down to 1280. */}
+        <aside className="absolute top-[239px] bottom-0 left-[99px] hidden w-[min(248px,calc(50vw-472px))] xl:block">
+          <ArticleContents sections={sections} />
         </aside>
 
         <article className="mx-auto w-full max-w-[715px] px-4 pt-[96px] pb-[60px] text-[16px] leading-[26px] sm:pt-[117px]">
@@ -47,16 +65,27 @@ export function ProofArticlePage({ section, slug }: { section: string; slug: str
             )}
           </div>
 
-          {sections.map((s) => (
-            <section key={s.id} id={s.id} className="mt-[56px] scroll-mt-[104px]">
-              <h2 className="mb-3 text-[20px] leading-[26px] font-[590] tracking-[-0.01em]">{s.heading}</h2>
-              {s.paragraphs.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)} className="[&+p]:mt-4">
-                  {paragraph}
-                </p>
-              ))}
-            </section>
-          ))}
+          <div className="article-body">
+            <Markdown
+              components={{
+                // "#" in the file is a section of the page, so every level steps down under the page's h1.
+                h1: ({ children }) => <h2 id={anchor(textOf(children))}>{children}</h2>,
+                h2: ({ children }) => <h3 id={anchor(textOf(children))}>{children}</h3>,
+                h3: ({ children }) => <h4>{children}</h4>,
+                img: ({ src, alt }) =>
+                  typeof src === "string" ? (
+                    <Image src={src} alt={alt ?? ""} width={0} height={0} sizes="(max-width: 715px) 100vw, 683px" />
+                  ) : null,
+                a: ({ href, children }) => (
+                  <a href={href} target="_blank" rel="noreferrer">
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {body}
+            </Markdown>
+          </div>
         </article>
       </div>
       <Footer />

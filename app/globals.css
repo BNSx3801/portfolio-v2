@@ -819,6 +819,94 @@ button.career-label:hover .career-role {
   box-shadow: var(--tile-shadow);
 }
 
+/* ---------- Case study / write-up body (rendered from Markdown) ---------- */
+
+.article-body > * + * {
+  margin-top: 16px;
+}
+/* Three steps under the 42px title: section 26px, sub-section 20px, then 16px semibold like a run-in label. */
+.article-body h2 {
+  margin-top: 80px;
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+.article-body h3 {
+  margin-top: 48px;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 590;
+  letter-spacing: -0.01em;
+}
+.article-body h4 {
+  margin-top: 32px;
+  font-weight: 590;
+}
+.article-body :is(h2, h3) {
+  scroll-margin-top: 104px;
+}
+/* The first section sits closer to the cover than sections sit to each other. */
+.article-body > h2:first-child {
+  margin-top: 56px;
+}
+.article-body h2 + * {
+  margin-top: 16px;
+}
+.article-body h2 + h3 {
+  margin-top: 28px;
+}
+.article-body :is(h3, h4) + * {
+  margin-top: 8px;
+}
+.article-body strong {
+  font-weight: 590;
+}
+.article-body a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.article-body ul,
+.article-body ol {
+  padding-left: 22px;
+}
+.article-body ul {
+  list-style: disc;
+}
+.article-body ol {
+  list-style: decimal;
+}
+.article-body ul ul {
+  list-style: circle;
+}
+.article-body li + li,
+.article-body li > :is(ul, ol, p + p) {
+  margin-top: 6px;
+}
+.article-body li::marker {
+  color: var(--ink-muted);
+}
+/* Definitions and asides from the write-up sit in a soft card. */
+.article-body blockquote {
+  margin-block: 24px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+.article-body blockquote > * + * {
+  margin-top: 10px;
+}
+.article-body p:has(> img) {
+  margin-block: 24px;
+}
+.article-body img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
 /* ---------- Kind words stack ---------- */
 
 .note-stack {
