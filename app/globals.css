@@ -808,7 +808,7 @@ button.career-label:hover .career-role {
 .pow-tile {
   position: relative;
   display: block;
-  aspect-ratio: 475 / 256;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: clip;
   background-image: linear-gradient(

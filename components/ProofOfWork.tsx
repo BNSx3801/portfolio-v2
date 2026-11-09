@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { proofSection, type ProofItem } from "@/lib/site";
+import { proofItemHref, proofSection, type ProofItem } from "@/lib/site";
 import { Footer } from "./Footer";
 import { Nav } from "./Nav";
 
-function Tile({ item }: { item: ProofItem }) {
+function Tile({ item, href }: { item: ProofItem; href?: string }) {
   const media = item.media && (
     <Image
       src={item.media.src}
@@ -13,8 +13,8 @@ function Tile({ item }: { item: ProofItem }) {
       className="object-cover"
     />
   );
-  return item.href ? (
-    <a href={item.href} className="pow-tile" aria-label={`${item.title}: ${item.subtitle}`}>
+  return href ? (
+    <a href={href} className="pow-tile" aria-label={`${item.title}: ${item.subtitle}`}>
       {media}
     </a>
   ) : (
@@ -44,7 +44,7 @@ export function ProofOfWorkPage({ slug }: { slug: string }) {
         <ol className="mt-16 flex flex-col gap-16 sm:mt-[109px] sm:gap-[104px]">
           {section.items.map((item, i) => (
             <li key={i} className="pow-item">
-              <Tile item={item} />
+              <Tile item={item} href={proofItemHref(slug, item)} />
               <div className="mt-[13px] ml-[39px]">
                 <p className="font-[590]">{item.title}</p>
                 <p className="mt-0.5 text-ink-muted">{item.subtitle}</p>

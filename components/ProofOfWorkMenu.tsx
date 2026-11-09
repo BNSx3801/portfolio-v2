@@ -86,7 +86,7 @@ export function ProofOfWorkMenu({ current }: { current?: string }) {
             <li key={section.slug}>
               <Link
                 href={`/proof-of-work/${section.slug}`}
-                className="link-underline"
+                className="link-underline block"
                 aria-current={section.slug === current ? "page" : undefined}
                 onClick={() => setOpen(false)}
               >

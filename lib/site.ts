@@ -73,13 +73,22 @@ export const projects: Project[] = [
   },
 ];
 
+export type ArticleSection = { heading: string; paragraphs: string[] };
+
 export type ProofItem = {
   title: string;
   subtitle: string;
-  // Optional: without one the card is a plain tile.
+  // Optional: without one the card is a plain tile. Ignored when the item has an article.
   href?: string;
   // Optional: without one the card renders as the frosted placeholder.
   media?: ProjectMedia;
+  // Optional: gives the item its own page at /proof-of-work/<section>/<slug>.
+  article?: {
+    slug: string;
+    // Wide image under the title; falls back to the card's media.
+    hero?: ProjectMedia;
+    sections: ArticleSection[];
+  };
 };
 
 export type ProofSection = {
@@ -113,7 +122,25 @@ export const proofOfWork: ProofSection[] = [
         "The general structure consists of breaking down the problem statement, quantitative research, qualitative/ux research, addressing the gaps, and closing remarks.",
       ],
     },
-    items: pseudoItems,
+    items: [
+      {
+        title: "ExamSeries",
+        subtitle: "User Research/Interviews · Market Research · Strategy & Implementation.",
+        media: { type: "image", src: "/assets/ExamSeries-casestudy.png", alt: "ExamSeries case study cover" },
+        article: {
+          slug: "examseries",
+          // Placeholder copy until the write-up lands; headings follow the structure in the note above.
+          sections: [
+            { heading: "Problem Statement", paragraphs: ["Still being written."] },
+            { heading: "Quantitative Research", paragraphs: ["Still being written."] },
+            { heading: "Qualitative / UX Research", paragraphs: ["Still being written."] },
+            { heading: "Addressing the Gaps", paragraphs: ["Still being written."] },
+            { heading: "Closing Remarks", paragraphs: ["Still being written."] },
+          ],
+        },
+      },
+      ...pseudoItems.slice(1),
+    ],
   },
   { slug: "wireframes", label: "Wireframes", heading: "Wireframes.", note: pseudoNote, items: pseudoItems },
   { slug: "builds", label: "Builds", heading: "Builds.", note: pseudoNote, items: pseudoItems },
@@ -131,6 +158,22 @@ export function proofSection(slug: string): ProofSection {
   const section = proofOfWork.find((s) => s.slug === slug);
   if (!section) throw new Error(`Unknown Proof-of-Work section: ${slug}`);
   return section;
+}
+
+// URL of an item's own page, or its plain link when it has none.
+export function proofItemHref(section: string, item: ProofItem) {
+  return item.article ? `/proof-of-work/${section}/${item.article.slug}` : item.href;
+}
+
+// Params for a section's [slug] route. Cache Components needs at least one, so an empty
+// section hands back a stand-in that the page turns into a 404.
+export function proofArticleParams(section: string) {
+  const slugs = proofSection(section).items.flatMap((item) => (item.article ? [item.article.slug] : []));
+  return (slugs.length ? slugs : ["__none__"]).map((slug) => ({ slug }));
+}
+
+export function proofArticle(section: string, slug: string) {
+  return proofSection(section).items.find((item) => item.article?.slug === slug);
 }
 
 // Tab title for a section page.
