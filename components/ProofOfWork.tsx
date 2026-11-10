@@ -50,7 +50,7 @@ export function ProofOfWorkPage({ slug }: { slug: string }) {
           {section.items.map((item, i) => (
             <li key={i} className="pow-item">
               <Tile item={item} href={proofItemHref(slug, item)} />
-              <div className="mt-[13px] ml-[39px]">
+              <div className="mt-[13px] sm:ml-[39px]">
                 <p className="font-[590]">{item.title}</p>
                 <p className="mt-0.5 text-ink-muted">{item.subtitle}</p>
               </div>

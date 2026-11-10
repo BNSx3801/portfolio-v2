@@ -374,6 +374,10 @@ header {
   gap: 28px;
   padding-right: 28px;
 }
+/* As wide as the card, so a long subtitle wraps under it instead of stretching the slot. */
+.rail-set > article {
+  width: min-content;
+}
 
 .card {
   display: block;
@@ -1229,11 +1233,16 @@ header {
   #kind-words > button {
     margin-left: 0;
   }
+  /* The notes share one grid cell, so the stack is as tall as the longest note and no taller. */
   .note-stack {
+    display: grid;
     translate: 0;
-    height: 330px;
+    height: auto;
   }
   .kind-note {
+    position: relative;
+    inset: auto;
+    grid-area: 1 / 1;
     padding: 16px 16px 18px;
   }
   .kind-note[data-place="1"] {
