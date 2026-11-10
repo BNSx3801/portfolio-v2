@@ -112,6 +112,8 @@ export function CoffeeSection() {
         body: JSON.stringify({ note: data.get("note"), from: data.get("from"), website: data.get("website") }),
       });
       if (!res.ok) {
+        // 429 comes from the Vercel Firewall rate limit on /api/note, not from the route.
+        if (res.status === 429) throw new Error("That's a lot of notes. Give it a minute and try again.");
         const body = (await res.json().catch(() => null)) as { error?: string } | null;
         throw new Error(body?.error ?? "Couldn't deliver the note. Please try again.");
       }

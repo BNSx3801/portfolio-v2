@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Cedarville_Cursive, Inter, Mrs_Saint_Delafield, Qwitcher_Grypen } from "next/font/google";
 import "./globals.css";
@@ -61,6 +62,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         {/* Vercel Web Analytics: cookieless page views, production only. */}
         <Analytics />
+        {/* Vercel Speed Insights: real-user Core Web Vitals, production only. */}
+        <SpeedInsights />
       </body>
     </html>
   );
