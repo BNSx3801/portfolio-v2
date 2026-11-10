@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Cedarville_Cursive, Inter, Mrs_Saint_Delafield, Qwitcher_Grypen } from "next/font/google";
 import "./globals.css";
@@ -58,6 +59,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full">
         <ClickSound />
         {children}
+        {/* Vercel Web Analytics: cookieless page views, production only. */}
+        <Analytics />
       </body>
     </html>
   );
