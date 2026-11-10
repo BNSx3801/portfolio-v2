@@ -191,12 +191,10 @@ export const proofOfWork: ProofSection[] = [
       {
         title: "ExamSeries",
         subtitle: "Brief · Brand Identity Kit · Screens",
-        // Taller than 16:9: anchor to the top so the ExamSeries wordmark stays in.
         media: {
           type: "image",
-          src: "/assets/ES-Regen-04.png",
+          src: "/assets/ExamSeries-Wireframes-Thumbnail.png",
           alt: "ExamSeries wireframe boards: brief, goals, proto-personas, scope, sitemap, user flows and research inputs",
-          position: "50% 0%",
         },
         article: {
           slug: "examseries",
@@ -205,7 +203,18 @@ export const proofOfWork: ProofSection[] = [
       },
     ],
   },
-  { slug: "builds", label: "Builds", items: pseudoItems },
+  {
+    slug: "builds",
+    label: "Builds",
+    items: [
+      {
+        title: "TheLyricalNotch",
+        subtitle: "A lyrical addition to the Boring Notch. FOSS Contribution",
+        media: { type: "video", src: "/assets/polished_demo.mp4", alt: "TheLyricalNotch demo" },
+      },
+      ...pseudoItems.slice(1),
+    ],
+  },
   { slug: "docs", label: "Docs", items: pseudoItems },
 ];
 

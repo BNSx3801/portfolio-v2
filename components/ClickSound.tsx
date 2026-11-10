@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { isSoundOn } from "@/lib/sound";
 
-const SRC = "/assets/clicking-sound.mp3";
+const SRC = "/assets/new-click-sound.mp3";
 
 // Plays a short click on every primary pointer press anywhere on the page, when sound is on.
 // Renders nothing. Browsers allow play() here because a pointer press is a user gesture.

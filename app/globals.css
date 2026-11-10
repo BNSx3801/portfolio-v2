@@ -778,6 +778,21 @@ header {
   );
   box-shadow: var(--tile-shadow);
 }
+/* Same slow zoom as the home cards; the tile clips it. */
+.pow-tile > img,
+.pow-tile > video {
+  transition: scale 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pow-tile:hover > img,
+.pow-tile:hover > video {
+  scale: 1.03;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pow-tile > img,
+  .pow-tile > video {
+    transition: none;
+  }
+}
 
 /* ---------- Case study / write-up body (rendered from Markdown) ---------- */
 

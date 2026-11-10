@@ -4,7 +4,20 @@ import { Footer } from "./Footer";
 import { Nav } from "./Nav";
 
 function Tile({ item, href }: { item: ProofItem; href?: string }) {
-  const media = item.media && (
+  const media = item.media?.type === "video" ? (
+    // Muted and inline so browsers allow autoplay; loops as a silent preview.
+    <video
+      src={item.media.src}
+      aria-label={item.media.alt ?? `${item.title} preview`}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      className="absolute inset-0 h-full w-full object-cover"
+      style={item.media.position ? { objectPosition: item.media.position } : undefined}
+    />
+  ) : item.media && (
     <Image
       src={item.media.src}
       alt={item.media.alt ?? `${item.title} preview`}
