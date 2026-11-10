@@ -41,6 +41,9 @@ export type Project = {
   media?: ProjectMedia[];
 };
 
+// Canonical origin, for absolute links in the agent-readable Markdown.
+export const siteUrl = "https://heybns.in";
+
 export const examSeriesUrl = "https://ca.examseries.co.in/";
 
 export const projects: Project[] = [

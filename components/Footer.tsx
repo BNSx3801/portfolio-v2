@@ -34,6 +34,14 @@ export function Footer() {
             <a href={contact.telegram} target="_blank" rel="noreferrer" className="link-underline">Telegram ↗</a>
           </dd>
         </div>
+        <div className={rowClass}>
+          <dt className="text-ink-muted">Agents</dt>
+          <dd>
+            <a href="/llms-full.txt" target="_blank" rel="noreferrer" className="link-underline text-ink-muted">
+              Read as Markdown ↗
+            </a>
+          </dd>
+        </div>
       </dl>
       <div className="ml-8 mr-[37px] flex items-center justify-between pt-[43px] text-[12px] leading-[16px]">
         <p>Last updated on {contact.lastUpdated}</p>

@@ -36,6 +36,8 @@ export const metadata: Metadata = {
   title: "Bal Narayan Singh (BNS)",
   description:
     "Product Ops and GTM generalist. Currently building ExamSeries.",
+  // Points AI agents at the Markdown version of the site.
+  alternates: { types: { "text/markdown": "/llms-full.txt" } },
 };
 
 // Runs during HTML parsing so the saved theme is applied before first paint.

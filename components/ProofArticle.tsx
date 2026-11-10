@@ -1,10 +1,9 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import Markdown from "react-markdown";
+import { readContent } from "@/lib/content";
 import { proofArticle, type ProjectMedia } from "@/lib/site";
 import { ArticleContents, type ContentsSection } from "./ArticleContents";
 import { Footer } from "./Footer";
@@ -123,10 +122,6 @@ function ArticleBody({ body }: { body: string }) {
       </Markdown>
     </div>
   );
-}
-
-function readContent(...segments: string[]) {
-  return readFileSync(path.join(process.cwd(), "content", ...segments) + ".md", "utf8");
 }
 
 // One case study or write-up, or the map of a series; app/proof-of-work/<section>/[slug] renders this.
