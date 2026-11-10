@@ -111,10 +111,6 @@ export type ProofSection = {
   slug: string;
   // Label in the nav dropdown.
   label: string;
-  // Slanted line above the pinned note.
-  heading: string;
-  // Optional pinned sheet under the heading; without one the heading stands alone.
-  note?: { title: string; paragraphs: string[] };
   items: ProofItem[];
 };
 
@@ -124,27 +120,18 @@ const pseudoItems: ProofItem[] = [
   { title: "ExamSeries", subtitle: "Pseudo Line" },
   { title: "ExamSeries", subtitle: "Pseudo Line" },
 ];
-const pseudoNote = { title: "What to expect?", paragraphs: ["Notes for this section are still being written."] };
 
 // Listed in the nav dropdown in this order. Each entry needs its own app/proof-of-work/<slug>/page.tsx.
 export const proofOfWork: ProofSection[] = [
   {
     slug: "case-studies",
     label: "Case-Studies/Research-Reports",
-    heading: "Case Studies / Research Reports / Build Thesis.",
-    note: {
-      title: "What to expect?",
-      paragraphs: [
-        "Depending on the genre of product/service, the structure of the case study might change.",
-        "The general structure consists of breaking down the problem statement, quantitative research, qualitative/ux research, addressing the gaps, and closing remarks.",
-      ],
-    },
     items: [
       {
         title: "ExamSeries",
         subtitle: "User Research/Interviews · Market Research · Strategy & Implementation.",
         media: { type: "image", src: "/assets/ExamSeries-casestudy.png", alt: "ExamSeries case study cover" },
-        // Placeholder copy until the write-up lands; headings follow the structure in the note above.
+        // Placeholder copy until the write-up lands.
         article: { slug: "examseries" },
       },
       {
@@ -200,7 +187,6 @@ export const proofOfWork: ProofSection[] = [
   {
     slug: "wireframes",
     label: "Wireframes",
-    heading: "Wireframes.",
     items: [
       {
         title: "ExamSeries",
@@ -219,8 +205,8 @@ export const proofOfWork: ProofSection[] = [
       },
     ],
   },
-  { slug: "builds", label: "Builds", heading: "Builds.", note: pseudoNote, items: pseudoItems },
-  { slug: "docs", label: "Docs", heading: "Docs.", note: pseudoNote, items: pseudoItems },
+  { slug: "builds", label: "Builds", items: pseudoItems },
+  { slug: "docs", label: "Docs", items: pseudoItems },
 ];
 
 export function proofSection(slug: string): ProofSection {
