@@ -438,5 +438,5 @@ export const contact = {
   linkedin: "https://linkedin.com/in/BNSx3801",
   x: "https://x.com/BNSx3801",
   telegram: "https://t.me/BNSx3801",
-  lastUpdated: "Nov 5, 2026",
+  lastUpdated: "Nov 11, 2026",
 };
