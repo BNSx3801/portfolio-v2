@@ -43,19 +43,25 @@ export function ProofOfWorkPage({ slug }: { slug: string }) {
     <main id="top">
       <Nav current={slug} />
       {/* 707px column, centred: the tiles swing between its edges. */}
-      <section className="mx-auto w-full max-w-[739px] px-4 pt-[76px] sm:pt-[100px]">
-        <h1 className="sr-only">{section.label}</h1>
-        <ol className="flex flex-col gap-16 sm:gap-[104px]">
-          {section.items.map((item, i) => (
-            <li key={i} className="pow-item">
-              <Tile item={item} href={proofItemHref(slug, item)} />
-              <div className="mt-[13px] sm:ml-[39px]">
-                <p className="font-[590]">{item.title}</p>
-                <p className="mt-0.5 text-ink-muted">{item.subtitle}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+      <section className="mx-auto w-full max-w-[739px] px-4 pt-[76px] sm:pt-[112px]">
+        <h1 className="text-center text-[18px] leading-[34px] font-[510] text-balance underline decoration-1 underline-offset-[10px] sm:text-[22px] sm:leading-[28px]">
+          {section.heading ?? section.label}
+        </h1>
+        {section.items.length === 0 ? (
+          <p className="mt-12 text-center text-ink-muted sm:mt-[70px]">Coming Soon</p>
+        ) : (
+          <ol className="mt-12 flex flex-col gap-16 sm:mt-[70px] sm:gap-[104px]">
+            {section.items.map((item, i) => (
+              <li key={i} className="pow-item">
+                <Tile item={item} href={proofItemHref(slug, item)} />
+                <div className="mt-[13px] sm:ml-[39px]">
+                  <p className="font-[590]">{item.title}</p>
+                  <p className="mt-0.5 text-ink-muted">{item.subtitle}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
       <Footer />
     </main>

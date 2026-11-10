@@ -111,21 +111,17 @@ export type ProofSection = {
   slug: string;
   // Label in the nav dropdown.
   label: string;
+  // Optional page heading; falls back to the label.
+  heading?: string;
   items: ProofItem[];
 };
-
-// Placeholders until the real entries land.
-const pseudoItems: ProofItem[] = [
-  { title: "ExamSeries", subtitle: "Pseudo Line" },
-  { title: "ExamSeries", subtitle: "Pseudo Line" },
-  { title: "ExamSeries", subtitle: "Pseudo Line" },
-];
 
 // Listed in the nav dropdown in this order. Each entry needs its own app/proof-of-work/<slug>/page.tsx.
 export const proofOfWork: ProofSection[] = [
   {
     slug: "case-studies",
     label: "Case-Studies/Research-Reports",
+    heading: "Case Studies / Research Reports / Explainers",
     items: [
       {
         title: "ExamSeries",
@@ -209,13 +205,18 @@ export const proofOfWork: ProofSection[] = [
     items: [
       {
         title: "TheLyricalNotch",
-        subtitle: "A lyrical addition to the Boring Notch. FOSS Contribution",
+        subtitle: "A lyrical addition to the Boring Notch · FOSS Contribution",
         media: { type: "video", src: "/assets/polished_demo.mp4", alt: "TheLyricalNotch demo" },
       },
-      ...pseudoItems.slice(1),
+      {
+        title: "ArbitMint",
+        subtitle: "Exploiting Price Gap b/w CEXs & DEXs.",
+        media: { type: "image", src: "/assets/ArbitMint-Thumbnail.png", alt: "ArbitMint thumbnail" },
+      },
     ],
   },
-  { slug: "docs", label: "Docs", items: pseudoItems },
+  // Empty until the first doc lands; the page says "Coming Soon".
+  { slug: "docs", label: "Docs", items: [] },
 ];
 
 export function proofSection(slug: string): ProofSection {
