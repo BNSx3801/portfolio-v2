@@ -16,7 +16,7 @@ import {
 } from "./site";
 
 const name = "Bal Narayan Singh (BNS)";
-const summary = "Product Ops and GTM generalist. Currently building ExamSeries.";
+const summary = "Product and GTM generalist. Currently building ExamSeries.";
 
 // Root-relative hrefs become absolute so links still work once the text leaves the site.
 function absolute(href: string) {

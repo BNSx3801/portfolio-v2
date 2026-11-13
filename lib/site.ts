@@ -257,7 +257,7 @@ export function proofTitle(slug: string) {
 }
 
 export const bio = [
-  'I’m BNS, and while I like to call myself a "true generalist", my expertise leans towards Product Ops and GTM (more of a PMM actually). I enjoy connecting the dots b/w product, tech & business, and turning ideas into things people actually use. Currently building ExamSeries. Listing some of my fav work below.',
+  'I’m BNS, and while I like to call myself a "true generalist", my expertise leans towards Product and GTM (more of a PMM actually). I enjoy connecting the dots b/w product, tech & business, and turning ideas into things people actually use. Currently building ExamSeries. Hover on Proof-of-Work to know more.',
   "Over the past few years, I’ve worked across Developer Relations, Product and Business Development, navigating the Web3 and AI ecosystems. From building communities and forging partnerships to researching markets and shaping product experiences.",
   "These days, I’m usually building something, exploring new technology or falling down an unexpected rabbit hole. When I’m not at my desk, you’ll probably find me out on my motorcycle, experimenting with my camera or discovering something new.",
 ];
