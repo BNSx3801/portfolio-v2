@@ -1,3 +1,5 @@
+import { portfolioV2 } from "./paper/portfolio-v2";
+
 export type Greeting = { word: string; lang: string };
 
 export const greetings: Greeting[] = [
@@ -89,6 +91,14 @@ export type SeriesPart = {
   date: string;
 };
 
+// A Paper file shown as exported artboards on a pan/zoom canvas. x, y, w, h are Paper canvas units.
+export type PaperArtboard = { name: string; src: string; x: number; y: number; w: number; h: number };
+export type PaperCanvas = {
+  // The file's share link; without one the page has no "Open in Paper" link.
+  url?: string;
+  pages: { name: string; artboards: PaperArtboard[] }[];
+};
+
 export type ProofItem = {
   title: string;
   subtitle: string;
@@ -104,6 +114,8 @@ export type ProofItem = {
     hero?: ProjectMedia;
     // Figma embed URL (the src of Figma's embed code). The page shows the file instead of copy.
     embed?: string;
+    // Paper file (no embed exists, so its artboards are exported). The page shows the canvas instead of copy.
+    paper?: PaperCanvas;
     // A series: the page becomes a map of its parts, each read at
     // /proof-of-work/<section>/<slug>/<part> from content/<section>/<slug>/<part>.md.
     parts?: SeriesPart[];
@@ -199,6 +211,16 @@ export const proofOfWork: ProofSection[] = [
           slug: "examseries",
           embed: "https://embed.figma.com/design/7eV7mJjaNCVn3I2OaRS6xB/ExamSeries-Wireframes-v2?node-id=0-1&embed-host=share",
         },
+      },
+      {
+        title: "Portfolio v2",
+        subtitle: "Brief · Kit · Wireframes",
+        media: {
+          type: "image",
+          src: "/assets/PortfolioV2-Wireframes-Thumbnail.png",
+          alt: "Portfolio v2 home page wireframe, desktop",
+        },
+        article: { slug: "portfolio-v2", paper: portfolioV2 },
       },
     ],
   },

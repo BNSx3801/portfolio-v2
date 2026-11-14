@@ -40,9 +40,14 @@ function link(title: string, href?: string) {
 const sectionUrl = (section: ProofSection) => `${siteUrl}/proof-of-work/${section.slug}`;
 const sectionHeading = (section: ProofSection) => section.heading ?? section.label;
 
-// What a reader can't get from the text: a Figma file or a video.
+// What a reader can't get from the text: a Figma or Paper file, or a video.
 function mediaNote(item: ProofItem) {
   if (item.article?.embed) return `Figma file: ${item.article.embed}`;
+  const paper = item.article?.paper;
+  if (paper) {
+    const pages = paper.pages.map((p) => `${p.name} (${p.artboards.map((a) => a.name).join(", ")})`).join("; ");
+    return paper.url ? `Paper file: ${paper.url}. Pages: ${pages}` : `Paper file, pages: ${pages}`;
+  }
   if (item.media?.type === "video") return `Demo video: ${absolute(item.media.src)}`;
   return undefined;
 }
@@ -93,7 +98,7 @@ function proofItemBlock(section: ProofSection, item: ProofItem) {
         shiftHeadings(absoluteLinks(body.trim()), 3),
       );
     }
-  } else if (article && !article.embed) {
+  } else if (article && !article.embed && !article.paper) {
     lines.push("", shiftHeadings(absoluteLinks(readContent(section.slug, article.slug).trim()), 3));
   }
   return lines.join("\n");

@@ -8,6 +8,7 @@ import { proofArticle, type ProjectMedia } from "@/lib/site";
 import { ArticleContents, type ContentsSection } from "./ArticleContents";
 import { Footer } from "./Footer";
 import { Nav } from "./Nav";
+import { PaperCanvas } from "./PaperCanvas";
 import { SeriesMap } from "./SeriesMap";
 
 // Heading text becomes the anchor the contents list jumps to.
@@ -129,12 +130,12 @@ export function ProofArticlePage({ section, slug }: { section: string; slug: str
   const item = proofArticle(section, slug);
   if (!item?.article) notFound();
   const cover = item.article.hero ?? item.media;
-  const { parts, embed } = item.article;
+  const { parts, embed, paper } = item.article;
 
   if (embed) {
     return (
       <Shell section={section} title={item.title} subtitle={item.subtitle} cover={false}>
-        <div className="figma-embed mt-[40px]">
+        <div className="canvas-embed mt-[40px]">
           <iframe src={embed} title={`${item.title}: Figma file`} allowFullScreen />
         </div>
         <p className="mt-4 text-[13px] leading-[18px] text-ink-muted">
@@ -142,6 +143,25 @@ export function ProofArticlePage({ section, slug }: { section: string; slug: str
           <a href={embed.replace("embed.figma.com", "www.figma.com").replace(/&embed-host=[^&]*/, "")} target="_blank" rel="noreferrer" className="link-underline">
             Open in Figma ↗
           </a>
+        </p>
+      </Shell>
+    );
+  }
+
+  if (paper) {
+    return (
+      <Shell section={section} title={item.title} subtitle={item.subtitle} cover={false}>
+        <PaperCanvas canvas={paper} title={item.title} />
+        <p className="mt-4 text-[13px] leading-[18px] text-ink-muted">
+          Drag to pan, pinch or ⌘-scroll to zoom.
+          {paper.url && (
+            <>
+              {" "}
+              <a href={paper.url} target="_blank" rel="noreferrer" className="link-underline">
+                Open in Paper ↗
+              </a>
+            </>
+          )}
         </p>
       </Shell>
     );

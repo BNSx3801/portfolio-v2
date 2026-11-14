@@ -794,8 +794,8 @@ header {
   }
 }
 
-/* Wireframes: the Figma file breaks out wider than the 683px text column. */
-.figma-embed {
+/* Wireframes: the Figma embed or Paper canvas breaks out wider than the 683px text column. */
+.canvas-embed {
   --w: min(1120px, calc(100vw - 32px));
   position: relative;
   width: var(--w);
@@ -807,7 +807,7 @@ header {
   background: var(--note-card);
   box-shadow: var(--tile-shadow);
 }
-.figma-embed iframe {
+.canvas-embed iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -815,9 +815,71 @@ header {
   border: 0;
 }
 @media (max-width: 639px) {
-  .figma-embed {
+  .canvas-embed {
     aspect-ratio: 3 / 4;
   }
+}
+
+/* Paper canvas (components/PaperCanvas.tsx): exported artboards on a pan/zoom layer. */
+.paper-canvas {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.paper-canvas:focus-visible {
+  outline: 2px solid var(--ink-faint);
+  outline-offset: -4px;
+  border-radius: 16px;
+}
+.paper-canvas.is-dragging {
+  cursor: grabbing;
+}
+.paper-canvas-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+.paper-canvas-world img {
+  position: absolute;
+  max-width: none;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+}
+.paper-canvas-caption {
+  position: absolute;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+.paper-canvas-chrome {
+  position: absolute;
+  display: flex;
+  gap: 2px;
+  max-width: calc(100% - 24px);
+  overflow-x: auto;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--note-card);
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.12);
+  scrollbar-width: none;
+}
+.paper-canvas-chrome button {
+  flex-shrink: 0;
+  min-width: 28px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 26px;
+  white-space: nowrap;
 }
 
 /* ---------- Case study / write-up body (rendered from Markdown) ---------- */
