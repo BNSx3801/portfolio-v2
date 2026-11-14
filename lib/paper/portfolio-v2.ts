@@ -5,8 +5,7 @@ import type { PaperCanvas } from "@/lib/site";
 const dir = "/assets/paper/portfolio-v2";
 
 export const portfolioV2: PaperCanvas = {
-  // Swap in the file's public share link to show "Open in Paper ↗".
-  url: undefined,
+  url: "https://app.paper.design/file/01M6K5Q8WMAJH3JX5E5975AN73/p-4-0",
   pages: [
     {
       name: "Brief",
