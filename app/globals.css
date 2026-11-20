@@ -131,6 +131,16 @@ header {
 .pow-menu ul {
   scrollbar-width: none;
 }
+/* Links sit back at 70% (text and underline alike, both are currentColor) until pointed at. */
+.pow-menu .link-underline {
+  opacity: 0.7;
+  transition: background-size 0.3s, opacity 0.2s;
+}
+.pow-menu .link-underline:hover,
+.pow-menu .link-underline:focus-visible,
+.pow-menu .link-underline[aria-current="page"] {
+  opacity: 1;
+}
 
 .sig-link {
   position: relative;
@@ -420,6 +430,7 @@ header {
 @media (prefers-reduced-motion: reduce) {
   .link-underline,
   .pow-menu,
+  .pow-menu .link-underline,
   .sig-link::after,
   .photo-print,
   .photo-print img,
