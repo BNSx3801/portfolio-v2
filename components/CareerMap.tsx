@@ -2,9 +2,13 @@
 
 import { useCallback, useEffect, useId, useRef, useState, type FocusEvent, type PointerEvent } from "react";
 import { career, type CareerStop } from "@/lib/site";
+import { useMagnetic } from "./useMagnetic";
 import { useTrail } from "./useTrail";
 
 const CLOSE_DELAY = 140;
+// Half the pull and halo of the "Let's Work Together" button, so the titles stick but only lightly.
+const LABEL_PULL = 0.07;
+const LABEL_HALO = 12;
 
 export function CareerMap() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -43,6 +47,8 @@ export function CareerMap() {
   }, [open]);
 
   useTrail(mapRef, dashRef, revealRef);
+  // Only the titles that open a card; the plain milestones stay put.
+  useMagnetic(mapRef, "button.career-label", LABEL_PULL, LABEL_HALO);
 
   return (
     <section id="career" className="mx-auto w-full max-w-[696px] px-4 pt-[128px]">
