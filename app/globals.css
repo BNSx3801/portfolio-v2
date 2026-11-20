@@ -7,7 +7,8 @@
   --ink: #000000;
   --pill-bg: #000000;
   --pill-fg: #ffffff;
-  --card: #8a534b;
+  /* Card fill while the image loads: black in light mode, white in dark. */
+  --card: #000000;
   --note-card: #ffffff;
   --note-shadow: 0 2px 41px rgb(0 0 0 / 0.2);
   --card-shadow: 0 18px 48px rgb(0 0 0 / 0.35), 0 4px 12px rgb(0 0 0 / 0.18);
@@ -26,6 +27,7 @@
   --paper: #111111;
   --ink: #e7e7e7;
   --pill-bg: #e7e7e7;
+  --card: #ffffff;
   --note-card: #1c1c1c;
   --note-shadow: 0 2px 41px rgb(0 0 0 / 0.6);
   --card-shadow: 0 18px 48px rgb(255 255 255 / 0.14), 0 4px 12px rgb(255 255 255 / 0.08);

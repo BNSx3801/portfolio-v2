@@ -68,7 +68,7 @@ export const projects: Project[] = [
     title: "GTM & Product Ops",
     subtitle: "GTM Engineering, Funnel Optimisation, Data & Decisions.",
     href: "#",
-    media: [{ type: "image", src: "/assets/Card-02.png", alt: "Career impact at NodeOps, Airtribe, Reef and Deon" }],
+    media: [{ type: "image", src: "/assets/Card-02-v2.png", alt: "Career impact at NodeOps, Airtribe, Reef and Deon" }],
   },
   {
     title: "Research & Writings",
