@@ -16,11 +16,14 @@ export const greetings: Greeting[] = [
 
 export type Photo = { src: string; alt: string };
 
-// The stack shows the first entry on top and cycles through the rest. Add more here.
+// The stack shuffles these on every page load and cycles through them. Add more here.
 export const photos: Photo[] = [
   { src: "/photos/bns-headshot.jpg", alt: "Bal Narayan Singh, portrait" },
   { src: "/photos/bns-speaking.png", alt: "Bal Narayan Singh speaking on stage" },
   { src: "/photos/bns-waterfall.jpg", alt: "Bal Narayan Singh on a staircase in front of a waterfall, helmet in hand" },
+  { src: "/assets/Carousel-4.jpg", alt: "Climbing the steps to a carved stone temple gateway flanked by elephant statues, helmet in hand" },
+  { src: "/assets/Carousel-5.jpg", alt: "An aircraft wing against a clear blue sky, seen from the window seat" },
+  { src: "/assets/Carousel-6.jpg", alt: "Two figures walking through night fog under a streetlamp" },
 ];
 
 export type ProjectMedia = {

@@ -2,12 +2,23 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { photos } from "@/lib/site";
+import { photos, type Photo } from "@/lib/site";
 
 const INTERVAL_MS = 3000;
 const LEAVE_MS = 460;
 
+function shuffle<T>(items: T[]): T[] {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 export function PhotoStack({ className = "" }: { className?: string }) {
+  // The page is prerendered, so the shuffle happens after hydration; the stack stays hidden until then.
+  const [deck, setDeck] = useState<Photo[] | null>(null);
   // order[0] is the print on top.
   const [order, setOrder] = useState(() => photos.map((_, i) => i));
   const [leaving, setLeaving] = useState<number | null>(null);
@@ -24,6 +35,11 @@ export function PhotoStack({ className = "" }: { className?: string }) {
     }, LEAVE_MS);
   }, [order]);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- must differ from the prerendered HTML
+    setDeck(shuffle(photos));
+  }, []);
+
   // Autoplay. Re-armed whenever the order changes, so a click restarts the 3s countdown.
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -36,14 +52,16 @@ export function PhotoStack({ className = "" }: { className?: string }) {
       type="button"
       onClick={advance}
       aria-label="Show next photo"
+      data-ready={deck ? "" : undefined}
       className={`photo-stack block border-0 bg-transparent p-0 ${className}`}
     >
-      {photos.map((photo, i) => {
+      {/* Keyed by slot, not src, so the shuffle swaps images without animating prints between places. */}
+      {(deck ?? photos).map((photo, i) => {
         const place = order.indexOf(i);
         const isLeaving = leaving === i;
         return (
           <span
-            key={photo.src + i}
+            key={i}
             className="photo-print"
             data-place={place}
             data-leaving={isLeaving ? "" : undefined}
@@ -54,7 +72,6 @@ export function PhotoStack({ className = "" }: { className?: string }) {
               alt={place === 0 ? photo.alt : ""}
               fill
               sizes="210px"
-              priority={i === 0}
               className="object-cover"
             />
           </span>

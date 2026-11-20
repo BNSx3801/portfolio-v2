@@ -251,6 +251,11 @@ header {
   aspect-ratio: 3 / 4;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.photo-stack[data-ready] {
+  opacity: 1;
 }
 .photo-print {
   position: absolute;
@@ -269,7 +274,8 @@ header {
   filter: grayscale(1);
   transition: filter 0.5s;
 }
-.photo-stack:hover .photo-print img {
+/* Only the print on top takes colour; the ones fanned out behind it stay grey. */
+.photo-stack:hover .photo-print[data-place="0"] img {
   filter: grayscale(0);
 }
 .photo-print[data-place="0"] {
@@ -280,9 +286,8 @@ header {
   rotate: 2.5deg;
   translate: 19px -4px;
 }
-.photo-print[data-place="2"],
-.photo-print[data-place="3"],
-.photo-print[data-place="4"] {
+/* Everything past the second print waits, hidden, behind the stack. */
+.photo-print:not([data-place="0"], [data-place="1"]) {
   rotate: 5deg;
   translate: 36px -9px;
   scale: 0.97;
