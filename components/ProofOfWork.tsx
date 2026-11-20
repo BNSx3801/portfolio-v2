@@ -44,7 +44,7 @@ export function ProofOfWorkPage({ slug }: { slug: string }) {
       <Nav current={slug} />
       {/* 707px column, centred: the tiles swing between its edges. */}
       <section className="mx-auto w-full max-w-[739px] px-4 pt-[76px] sm:pt-[112px]">
-        <h1 className="text-center text-[18px] leading-[34px] font-[510] text-balance underline decoration-1 underline-offset-[10px] sm:text-[22px] sm:leading-[28px]">
+        <h1 className="text-center text-[18px] leading-[34px] font-normal text-balance underline decoration-1 underline-offset-[10px] sm:text-[22px] sm:leading-[28px]">
           {section.heading ?? section.label}
         </h1>
         {section.items.length === 0 ? (
