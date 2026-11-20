@@ -313,6 +313,36 @@ header {
   transition-timing-function: cubic-bezier(0.4, 0, 0.7, 0.2);
 }
 
+/* ---------- Proof-of-Work watermark ---------- */
+
+/* Printed on the page behind everything, so it scrolls with the tiles and never takes a click. */
+.pow-watermark {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+/* Oversized and rotated about the centre so the tilted rows still reach every corner. */
+.pow-watermark-sheet {
+  position: absolute;
+  inset: -50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  rotate: -25deg;
+  font-size: 22px;
+  line-height: 28px;
+  white-space: pre;
+  color: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.pow-watermark-sheet p:nth-child(even) {
+  translate: 90px 0;
+}
+
 /* ---------- Greeting flip ---------- */
 
 .hello {

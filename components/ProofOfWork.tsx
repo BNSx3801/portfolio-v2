@@ -36,15 +36,38 @@ function Tile({ item, href }: { item: ProofItem; href?: string }) {
   );
 }
 
+const WATERMARK_ROWS = 120;
+const WATERMARK_WORDS_PER_ROW = 24; // long enough to reach the corners of a tall page once tilted
+
+// The section's name, tiled in tilted rows behind the page. "Case Studies / Research Reports" becomes
+// Case-Studies and Research-Reports; each row starts one word further along so the columns don't line up.
+function Watermark({ text }: { text: string }) {
+  const words = text.split("/").map((w) => w.trim().replace(/\s+/g, "-"));
+  const repeats = Math.ceil(WATERMARK_WORDS_PER_ROW / words.length);
+  return (
+    <div className="pow-watermark" aria-hidden="true">
+      <div className="pow-watermark-sheet">
+        {Array.from({ length: WATERMARK_ROWS }, (_, row) => {
+          const shift = row % words.length;
+          const line = [...words.slice(shift), ...words.slice(0, shift)];
+          return <p key={row}>{Array.from({ length: repeats }, () => line).flat().join("\u2003\u2003")}</p>;
+        })}
+      </div>
+    </div>
+  );
+}
+
 // The whole page for one section; each route under app/proof-of-work renders this with its slug.
 export function ProofOfWorkPage({ slug }: { slug: string }) {
   const section = proofSection(slug);
   return (
-    <main id="top">
+    <main id="top" className="relative isolate">
       <Nav current={slug} />
+      <Watermark text={section.heading ?? section.label} />
       {/* 707px column, centred: the tiles swing between its edges. */}
       <section className="mx-auto w-full max-w-[739px] px-4 pt-[76px] sm:pt-[112px]">
-        <h1 className="text-center text-[18px] leading-[34px] font-normal text-balance underline decoration-1 underline-offset-[10px] sm:text-[22px] sm:leading-[28px]">
+        {/* The watermark carries the name visually; the heading stays for screen readers and search. */}
+        <h1 className="sr-only">
           {section.heading ?? section.label}
         </h1>
         {section.items.length === 0 ? (
